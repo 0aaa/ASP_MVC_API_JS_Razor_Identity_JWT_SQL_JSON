@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Bike>
+@{
+    ViewData["Title"] = "Edition";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <a href="~/Authentication/Logout" class="btn border float-right">Exit</a>
+    <h4 class="float-right mr-3">@User.Identity.Name</h4>
+    <a href="~/Crud/Addition" class="btn border">Add new</a>
+    <a href="~/Crud/AccountRole" class="btn border">Edit roles</a>
+    <h4>Items</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Line</th>
+                <th>Model</th>
+                <th>Frame</th>
+                <th>Fork</th>
+                <th>Shifter</th>
+                <th>Brake</th>
+                <th>Cost</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Bike bike in Model)
+            {
+                <tr>
+                    <td>@bike.Line</td>
+                    <td>@bike.Model</td>
+                    <td>@bike.Frame</td>
+                    <td>@bike.Fork</td>
+                    <td>@bike.Shifter</td>
+                    <td>@bike.Brake</td>
+                    <td>$@bike.Cost</td>
+                    <td><a href="~/Crud/Addition/@bike.BikeId" class="btn border">Edit</a></td>
+                    <td>
+                        <form action="~/Crud/Deletion" method="post">
+                            <input type="hidden" name="id" value="@bike.BikeId" />
+                            <button class="btn border" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

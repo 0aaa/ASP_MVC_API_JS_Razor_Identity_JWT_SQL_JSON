@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Bike>
+@{
+    ViewData["Title"] = "Bike store";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <span>@ViewBag.Gratitude</span>
+    <h4>Items</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Line</th>
+                <th>Model</th>
+                <th>Frame</th>
+                <th>Fork</th>
+                <th>Shifter</th>
+                <th>Brake</th>
+                <th>Cost</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Bike bike in Model)
+            {
+                <tr>
+                    <td>@bike.Line</td>
+                    <td>@bike.Model</td>
+                    <td>@bike.Frame</td>
+                    <td>@bike.Fork</td>
+                    <td>@bike.Shifter</td>
+                    <td>@bike.Brake</td>
+                    <td>$@bike.Cost</td>
+                    <td>
+                        <a href="~/Home/Order/@bike.BikeId" class="btn border">Buy</a>
+                    </td>
+                    <td>
+                        @using(Html.BeginForm("Addition", "Summary"))
+                        {
+                            <input type="hidden" name="BikeId" value="@bike.BikeId"/>
+                            @Html.Hidden("returnUrl", Context.Request.Path.Value)
+                            <button type="submit" class="btn border">Choose</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <ul class="pagination justify-content-center">
+        @for (int pageNumber = 0; pageNumber < 3; pageNumber++)
+        {
+            <li class="page-item">
+                <a href="~/Home/Index/@pageNumber" class="page-link">@(pageNumber + 1)</a>
+            </li>
+        }
+    </ul>
+</body>
+</html>

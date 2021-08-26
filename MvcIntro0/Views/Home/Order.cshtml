@@ -1,0 +1,32 @@
+﻿@model Purchase
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Order";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h3>Customer data</h3>
+        <form method="post">
+            <input type="hidden" value="@ViewBag.BikeId" name="BikeId"/>
+
+            @Html.ValidationMessageFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control w-75 mb-1", placeholder = "First name" })
+
+            @Html.ValidationMessageFor(model => model.Lastname)
+            @Html.TextBoxFor(model => model.Lastname, new { @class = "form-control w-75 mb-1", placeholder = "Lastname" })
+
+            @Html.ValidationMessageFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control w-75 mb-1", placeholder = "E-mail" })
+
+            @Html.ValidationMessageFor(model => model.Phone)
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control w-75 mb-1", placeholder = "Phone" })
+            <button type="submit" class="d-block">Submit</button>
+        </form>
+    </body>
+</html>

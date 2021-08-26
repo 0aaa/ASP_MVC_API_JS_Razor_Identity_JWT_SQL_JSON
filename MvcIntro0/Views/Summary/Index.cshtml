@@ -1,0 +1,44 @@
+﻿@using MvcIntro0.Models.ViewModels
+@model SummaryIndexViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+    
+*@
+@{
+}
+
+<h2>Summary</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Line</th>
+            <th>Model</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            <th>Purchase total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(ChosenItem chosen in Model.Summary.SummaryLst)
+        {
+            <tr>
+                <td>@chosen.Bike.Line</td>
+                <td>@chosen.Bike.Model</td>
+                <td>@chosen.Qty</td>
+                <td>@chosen.Bike.Cost</td>
+                <td>@(chosen.Bike.Cost * chosen.Qty)</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>Total</td>
+            <td>@Model.Summary.ComputeTotal()</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+<a href="@Model.ReturnUrl" class="btn border">Back</a>

@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Account>
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <a href="~/Crud/Index" class="btn border">Back</a>
+    <h4>Accounts</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Account acnt in Model)
+            {
+                <tr>
+                    <td>@acnt.AccountId</td>
+                    <td>@acnt.Name</td>
+                    <td>@acnt.Role.Title</td>
+                    @if (acnt.Role.Title != "admin")
+                    {
+                        <td>
+                            <a href="~/Crud/ChangeAccountAuthorisation/@acnt.AccountId" class="btn border">Set as admin</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
