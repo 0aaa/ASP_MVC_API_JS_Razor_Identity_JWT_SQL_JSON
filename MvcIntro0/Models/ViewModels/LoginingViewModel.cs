@@ -13,5 +13,6 @@ namespace MvcIntro0.Models.ViewModels
         [DataType(DataType.Password)]
         [Required(ErrorMessage ="Required")]
         public string Password { get; set; }
+        public string ReturnURL { get; set; }
     }
 }

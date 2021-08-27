@@ -11,8 +11,8 @@
 <head>
 </head>
 <body>
-    <a href="~/Crud/Index" class="btn border">Back</a>
     <h4>Accounts</h4>
+    <a href="~/Crud/Index" class="btn border">Back</a>
     <table class="table">
         <thead>
             <tr>
@@ -26,15 +26,15 @@
             @foreach (Account acnt in Model)
             {
                 <tr>
-                    <td>@acnt.AccountId</td>
-                    <td>@acnt.Name</td>
-                    <td>@acnt.Role.Title</td>
-                    @if (acnt.Role.Title != "admin")
-                    {
-                        <td>
-                            <a href="~/Crud/ChangeAccountAuthorisation/@acnt.AccountId" class="btn border">Set as admin</a>
-                        </td>
-                    }
+                    <td>@acnt.Id</td>
+                    <td>@acnt.UserName</td>
+                    <td>@acnt.Role?.Title</td>
+                    <td>
+                        @if (acnt.Role?.Title != "admin")
+                        {
+                            <a href="~/Crud/ChangeAccountAuthorisation/@acnt.Id" class="btn border">Set as admin</a>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MvcIntro0.Models
 {
-    public class StoreContext : DbContext
+    public class StoreContext : IdentityDbContext<Account>
     {
         public DbSet<Bike> Bikes { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public StoreContext(DbContextOptions<StoreContext> optns) : base(optns)
             => Database.EnsureCreated();
+        /*public DbSet<Account> Accounts { get; set; }
+        public DbSet<Role> Roles { get; set; }
         protected override void OnModelCreating(ModelBuilder mdlBldr)
         {
             Role administrator = new Role { RoleId = 1, Title = "admin" };
@@ -23,6 +24,6 @@ namespace MvcIntro0.Models
             mdlBldr.Entity<Role>().HasData(new Role[] { administrator, customer });
             mdlBldr.Entity<Account>().HasData(new Account[] { adminAcnt, customerAcnt });
             base.OnModelCreating(mdlBldr);
-        }
+        }*/
     }
 }

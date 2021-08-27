@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class CrudController : Controller
     {
         private StoreContext _context;
@@ -20,7 +20,7 @@ namespace MvcIntro0.Controllers
         public IActionResult Addition(int? id)
             => View(_context.Bikes.Find(id));
         public IActionResult AccountRole()
-            => View(_context.Accounts.Include(acnt => acnt.Role).ToList());
+            => View(_context.Users.Include(acnt => acnt.Role).ToList());
         [HttpPost]
         public IActionResult Addition(Bike newBike)
         {
@@ -52,9 +52,9 @@ namespace MvcIntro0.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public IActionResult ChangeAccountAuthorisation(int id)
+        public IActionResult ChangeAccountAuthorisation(string id)
         {
-            _context.Accounts.Find(id).RoleId = 1;
+            _context.Users.Find(id).RoleId = 1;
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

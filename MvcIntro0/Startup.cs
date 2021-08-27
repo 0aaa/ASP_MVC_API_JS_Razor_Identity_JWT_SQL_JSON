@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,14 +27,15 @@ namespace MvcIntro0
         {
             string cnctn = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<StoreContext>(optns => optns.UseSqlServer(cnctn));
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services.AddIdentity<Account, IdentityRole>().AddEntityFrameworkStores<StoreContext>();
+            services.AddControllersWithViews();
+            services.AddSession();
+            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(optns =>
                 {
                     optns.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
                     optns.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
-                });
-            services.AddControllersWithViews();
-            services.AddSession();
+                });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

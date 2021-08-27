@@ -27,7 +27,7 @@ namespace MvcIntro0
                     //services.GetRequiredService<ILogger<Program>>()
                     //    .LogDebug(excptn, "Database seeding error");
                 }
-                    TestData.Initialize(services.GetRequiredService<StoreContext>());
+                TestData.Initialize(services.GetRequiredService<StoreContext>());
             }
             hst.Run();
         }
@@ -35,8 +35,6 @@ namespace MvcIntro0
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    webBuilder.UseStartup<Startup>());
     }
 }
