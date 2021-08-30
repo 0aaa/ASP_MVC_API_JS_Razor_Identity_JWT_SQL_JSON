@@ -12,15 +12,23 @@ namespace MvcIntro0.Controllers
     [Authorize]
     public class CrudController : Controller
     {
-        private StoreContext _context;
+        private readonly StoreContext _context;
+
+
         public CrudController(StoreContext cntxt)
             => _context = cntxt;
+        
+
         public IActionResult Index()
             => View(_context.Bikes.ToList());
+        
         public IActionResult Addition(int? id)
             => View(_context.Bikes.Find(id));
+        
         public IActionResult AccountRole()
             => View(_context.Users.Include(acnt => acnt.Role).ToList());
+
+
         [HttpPost]
         public IActionResult Addition(Bike newBike)
         {
@@ -44,18 +52,25 @@ namespace MvcIntro0.Controllers
                 _context.Bikes.Add(newBike);
             }
             _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
+
+
         public IActionResult Deletion(int id)
         {
             _context.Bikes.Remove(_context.Bikes.Find(id));
             _context.SaveChanges();
+            
             return RedirectToAction("Index");
         }
+
+
         public IActionResult ChangeAccountAuthorisation(string id)
         {
             _context.Users.Find(id).RoleId = 1;
             _context.SaveChanges();
+        
             return RedirectToAction("Index");
         }
     }

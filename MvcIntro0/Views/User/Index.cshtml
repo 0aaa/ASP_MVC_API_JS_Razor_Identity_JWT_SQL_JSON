@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Account>
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+
+<h4>Accounts</h4>
+
+@if (User.IsInRole("admin"))
+{
+    <a href="~/Accounts/Add" class="btn border">Add account</a>
+}
+
+<a href="~/Home/Index" class="btn border">Back</a>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @*@if (!User.IsInRole("admin"))
+        {
+            <tr>
+                <td>@User.Identity.Name</td>
+                <td>
+                    <a href="~/Accounts/Update/@User.Id" class="btn border">Edit</a>
+                </td>
+                <td>
+                    <a href="~/Accounts/Delete/@User.Id" class="btn border">Delete</a>
+                </td>
+            </tr>
+        }
+        else
+        {
+        }*@
+            @foreach (Account acnt in Model)
+            {
+                <tr>
+                    <td>@acnt.Id</td>
+                    <td>@acnt.UserName</td>
+                    <td>@acnt.Role?.Title</td>
+                    <td>
+                        <a href="~/User/AddOrUpdate/@acnt.Id" class="btn border">Edit</a>
+                    </td>
+                    <td>
+                        <a href="~/User/Delete/@acnt.Id" class="btn border">Delete</a>
+                    </td>
+                </tr>
+            }
+    </tbody>
+
+</table>

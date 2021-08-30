@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model Account
+
+@{
+    ViewData["Title"] = "Edition";
+}
+
+
+<form method="post">
+
+    @Html.HiddenFor(acnt => acnt.Id, new { CausesValidation = "False" })
+
+    @Html.ValidationMessageFor(acnt => acnt.UserName)
+    @Html.TextBoxFor(acnt => acnt.UserName, new { @class = "form-control mb-1", placeholder = "Name" })
+
+    <input type="password" name="userPassword" class="form-control mb-1" placeholder="Password"/>
+
+    @Html.ValidationMessageFor(acnt => acnt.Email)
+    @Html.TextBoxFor(acnt => acnt.Email, new { @class = "form-control mb-1", placeholder = "E-mail" })
+
+    @Html.ValidationMessageFor(acnt => acnt.PhoneNumber)
+    @Html.TextBoxFor(acnt => acnt.PhoneNumber, new { @class = "form-control mb-1", placeholder = "Phone" })
+
+    <button type="submit" class="btn border">Submit</button>
+
+</form>

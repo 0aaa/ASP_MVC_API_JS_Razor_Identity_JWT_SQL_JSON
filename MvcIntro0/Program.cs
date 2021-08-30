@@ -16,21 +16,25 @@ namespace MvcIntro0
         public static void Main(string[] args)
         {
             IHost hst = CreateHostBuilder(args).Build();
+
             using (IServiceScope scpe = hst.Services.CreateScope())
             {
                 IServiceProvider services = scpe.ServiceProvider;
+            
                 try
                 {
+                    TestData.Initialize(services.GetRequiredService<StoreContext>());
                 }
                 catch (Exception excptn)
                 {
-                    //services.GetRequiredService<ILogger<Program>>()
-                    //    .LogDebug(excptn, "Database seeding error");
+                    services.GetRequiredService<ILogger<Program>>()
+                        .LogDebug(excptn, "Database seeding error");
                 }
-                TestData.Initialize(services.GetRequiredService<StoreContext>());
             }
+
             hst.Run();
         }
+
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

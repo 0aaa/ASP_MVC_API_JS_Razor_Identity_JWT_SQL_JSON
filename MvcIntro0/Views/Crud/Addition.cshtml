@@ -1,11 +1,16 @@
-﻿@model Bike
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@model Bike
+
 @{
     ViewData["Title"] = "Edition";
 }
+
+
 <form method="post">
+
     @Html.HiddenFor(item => item.BikeId, new { CausesValidation="False"})
 
     @Html.ValidationMessageFor(model => model.Line)
@@ -30,4 +35,5 @@
     @Html.TextBoxFor(model => model.Cost, new { @class = "form-control mb-1", placeholder = "Cost" })
 
     <button type="submit" class="btn border">Submit</button>
+
 </form>
