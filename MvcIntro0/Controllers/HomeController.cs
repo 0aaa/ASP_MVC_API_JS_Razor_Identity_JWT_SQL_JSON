@@ -20,7 +20,7 @@ namespace MvcIntro0.Controllers
         public HomeController(StoreContext cntxt, UserManager<Account> acntMngr)
         {
             context = cntxt;
-            acntMngr.CreateAsync(new Account { UserName = "admin" }, "Admin_1");
+            acntMngr.CreateAsync(new Account { UserName = "admin" }, "Admin_1").Wait();
         }
 
         public IActionResult Index(int id, Purchase purchase)
@@ -29,10 +29,8 @@ namespace MvcIntro0.Controllers
             {
                 ViewBag.Gratitude = $"Thank you, {purchase.FirstName}, for your order. We love you, come back soon!";
             }
-            Task ts = new Task(()=> context.Bikes.Skip(id * 10).Take(10).ToList());
-            ts.Start();
-            ts.Wait();
-            return View(ts.Result);
+
+            return View(context.Bikes.Skip(id * 10).Take(10).ToList());
         }
         public IActionResult Order(int? id)
         {
