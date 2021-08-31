@@ -17,7 +17,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 w-100 justify-content-between">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Crud" asp-action="Index">Edit</a>
                         </li>
@@ -33,11 +33,11 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Accounts</a>
+                                <span class="font-weight-bold mr-3">@User.Identity.Name</span>
+                                <a class="nav-link text-dark d-inline-block" asp-controller="User" asp-action="Index">Accounts</a>
                             </li>
                             <li class="nav-item">
-                                <span class="mr-3">@User.Identity.Name</span>
-                                <a class="nav-link text-dark d-inline-block" asp-controller="Account" asp-action="Logout">Exit</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Exit</a>
                             </li>
                         }
                     </ul>

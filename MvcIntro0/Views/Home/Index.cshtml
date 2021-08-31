@@ -9,8 +9,11 @@
 </head>
 <body>
     <span>@ViewBag.Gratitude</span>
+
     <h4>Items</h4>
+
     <table class="table">
+
         <thead>
             <tr>
                 <th>Line</th>
@@ -24,6 +27,7 @@
                 <th></th>
             </tr>
         </thead>
+
         <tbody>
             @foreach (Bike bike in Model)
             {
@@ -49,7 +53,9 @@
                 </tr>
             }
         </tbody>
+
     </table>
+
     <ul class="pagination justify-content-center">
         @for (int pageNumber = 0; pageNumber < 3; pageNumber++)
         {

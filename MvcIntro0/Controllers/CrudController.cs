@@ -66,12 +66,12 @@ namespace MvcIntro0.Controllers
         }
 
 
-        public IActionResult ChangeAccountAuthorisation(string id)
+        /*public IActionResult ChangeAccountAuthorisation(string id)
         {
             _context.Users.Find(id).RoleId = 1;
             _context.SaveChanges();
         
             return RedirectToAction("Index");
-        }
+        }*/
     }
 }

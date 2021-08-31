@@ -9,28 +9,30 @@
 }
 
 
+<a href="~/Crud/Index" class="btn border mb-2">Back</a>
+
 <form method="post">
 
-    @Html.HiddenFor(item => item.BikeId, new { CausesValidation="False"})
+    @Html.HiddenFor(item => item.BikeId, new { CausesValidation = "False" })
 
     @Html.ValidationMessageFor(model => model.Line)
     @Html.TextBoxFor(model => model.Line, new { @class = "form-control mb-1", placeholder = "Line" })
-    
+
     @Html.ValidationMessageFor(model => model.Model)
     @Html.TextBoxFor(model => model.Model, new { @class = "form-control mb-1", placeholder = "Model" })
-    
+
     @Html.ValidationMessageFor(model => model.Frame)
     @Html.TextBoxFor(model => model.Frame, new { @class = "form-control mb-1", placeholder = "Frame" })
-    
+
     @Html.ValidationMessageFor(model => model.Fork)
     @Html.TextBoxFor(model => model.Fork, new { @class = "form-control mb-1", placeholder = "Fork" })
-    
+
     @Html.ValidationMessageFor(model => model.Shifter)
     @Html.TextBoxFor(model => model.Shifter, new { @class = "form-control mb-1", placeholder = "Shifter" })
-    
+
     @Html.ValidationMessageFor(model => model.Brake)
     @Html.TextBoxFor(model => model.Brake, new { @class = "form-control mb-1", placeholder = "Brake" })
-    
+
     @Html.ValidationMessageFor(model => model.Cost)
     @Html.TextBoxFor(model => model.Cost, new { @class = "form-control mb-1", placeholder = "Cost" })
 

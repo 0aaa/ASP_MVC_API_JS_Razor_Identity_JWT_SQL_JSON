@@ -18,23 +18,31 @@ namespace MvcIntro0.Controllers
     {
         private readonly UserManager<Account> _accountManager;
         private readonly SignInManager<Account> _registrationManager;
+
+
         public AccountController(UserManager<Account> acntMngr, SignInManager<Account> rgstrtnMngr)
         {
             _accountManager = acntMngr;
             _registrationManager = rgstrtnMngr;
         }
+
+
         public IActionResult Registration()
             => View();
+
         public IActionResult Login(string returnURL)
             => View(new LoginingViewModel { ReturnURL = returnURL });
+
+
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Registration(RegistrationViewModel rvm)
         {
             if (ModelState.IsValid)
             {
-                Account currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, RoleId = null };
+                Account currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, RoleId = 1 };
                 IdentityResult identityResult = await _accountManager.CreateAsync(currentAccount, rvm.Password);
+
                 if (identityResult.Succeeded)
                 {
                     //await _registrationManager.SignInAsync(currentAccount, false);
@@ -49,8 +57,11 @@ namespace MvcIntro0.Controllers
                     }
                 }
             }
+
             return View(rvm);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginingViewModel lvm)
@@ -59,6 +70,7 @@ namespace MvcIntro0.Controllers
             {
                 Microsoft.AspNetCore.Identity.SignInResult registrationRes
                     = await _registrationManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
+
                 if (registrationRes.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(lvm.ReturnURL) && Url.IsLocalUrl(lvm.ReturnURL))
@@ -75,12 +87,16 @@ namespace MvcIntro0.Controllers
                     ModelState.AddModelError("", "Wrong name or password");
                 }
             }
+
             return View(lvm);
         }
+
+
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _registrationManager.SignOutAsync();
+
             return RedirectToAction("Index", "Home");
         }
     }

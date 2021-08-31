@@ -10,6 +10,8 @@
 
 <h2>Registration</h2>
 
+<a href="~/Home/Index" class="btn border mb-2">Back</a>
+
 <form asp-action="Registration" asp-controller="Account" asp-antiforgery="true">
 
     <div asp-validation-summary="ModelOnly"></div>
@@ -18,10 +20,10 @@
     @Html.TextBoxFor(acnt => acnt.Name, new { @class = "form-control mb-1", placeholder = "Name" })
 
     @Html.ValidationMessageFor(acnt => acnt.Password)
-    @Html.TextBoxFor(acnt => acnt.Password, new { @type="password", @class = "form-control mb-1", placeholder = "Password" })
+    @Html.TextBoxFor(acnt => acnt.Password, new { @type = "password", @class = "form-control mb-1", placeholder = "Password" })
 
     @Html.ValidationMessageFor(acnt => acnt.PasswordReiteration)
-    @Html.TextBoxFor(acnt => acnt.PasswordReiteration, new { @type="password", @class = "form-control mb-1", placeholder = "Password repeat" })
+    @Html.TextBoxFor(acnt => acnt.PasswordReiteration, new { @type = "password", @class = "form-control mb-1", placeholder = "Password repeat" })
 
     <button type="submit" class="btn border">Submit</button>
 

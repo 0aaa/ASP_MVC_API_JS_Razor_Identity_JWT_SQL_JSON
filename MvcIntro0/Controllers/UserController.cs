@@ -17,7 +17,7 @@ namespace MvcIntro0.Controllers
         //private readonly SignInManager<Account> _registrationManager;
 
 
-        public UserController(UserManager<Account> acntMngr, SignInManager<Account> rgstrtnMngr)
+        public UserController(UserManager<Account> acntMngr/*, SignInManager<Account> rgstrtnMngr*/)
         {
             //_registrationManager = rgstrtnMngr;
             _accountManager = acntMngr;

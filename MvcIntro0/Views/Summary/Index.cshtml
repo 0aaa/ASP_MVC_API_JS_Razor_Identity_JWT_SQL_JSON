@@ -1,15 +1,19 @@
-﻿@using MvcIntro0.Models.ViewModels
-@model SummaryIndexViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-    
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860    
 *@
+
+@using MvcIntro0.Models.ViewModels
+@model SummaryIndexViewModel
+
 @{
 }
 
 <h2>Summary</h2>
-<table class="table">
+
+<a href="@Model.ReturnUrl" class="btn border">Back</a>
+
+<table class="table mt-2">
+
     <thead>
         <tr>
             <th>Line</th>
@@ -19,6 +23,7 @@
             <th>Purchase total</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach(ChosenItem chosen in Model.Summary.SummaryLst)
         {
@@ -31,6 +36,7 @@
             </tr>
         }
     </tbody>
+
     <tfoot>
         <tr>
             <td>Total</td>
@@ -40,5 +46,5 @@
             <td></td>
         </tr>
     </tfoot>
+
 </table>
-<a href="@Model.ReturnUrl" class="btn border">Back</a>
