@@ -10,16 +10,12 @@ namespace MvcIntro0.Models
 {
     public class StoreContext : IdentityDbContext<Account>
     {
-        private readonly PasswordHasher<IdentityUser> _pswrdHshr;
-
-
         public DbSet<Bike> Bikes { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
 
 
         public StoreContext(DbContextOptions<StoreContext> optns) : base(optns)
         {
-            _pswrdHshr = new PasswordHasher<IdentityUser>();
             Database.EnsureCreated();
         }
 

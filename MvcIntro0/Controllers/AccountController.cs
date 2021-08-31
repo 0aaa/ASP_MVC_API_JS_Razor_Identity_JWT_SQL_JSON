@@ -24,6 +24,7 @@ namespace MvcIntro0.Controllers
         {
             _accountManager = acntMngr;
             _registrationManager = rgstrtnMngr;
+
         }
 
 
@@ -68,10 +69,10 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult registrationRes
+                Microsoft.AspNetCore.Identity.SignInResult loginRes
                     = await _registrationManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
 
-                if (registrationRes.Succeeded)
+                if (loginRes.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(lvm.ReturnURL) && Url.IsLocalUrl(lvm.ReturnURL))
                     {

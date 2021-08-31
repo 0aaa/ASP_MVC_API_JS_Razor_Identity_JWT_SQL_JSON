@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcIntro0.Models;
 using System;
@@ -14,10 +15,12 @@ namespace MvcIntro0.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
         private StoreContext context;
-        public HomeController(StoreContext cntxt)
+        public HomeController(StoreContext cntxt, UserManager<Account> acntMngr)
         {
             context = cntxt;
+            acntMngr.CreateAsync(new Account { UserName = "admin" }, "Admin_1");
         }
 
         public IActionResult Index(int id, Purchase purchase)
@@ -26,7 +29,10 @@ namespace MvcIntro0.Controllers
             {
                 ViewBag.Gratitude = $"Thank you, {purchase.FirstName}, for your order. We love you, come back soon!";
             }
-            return View(context.Bikes.Skip(id * 10).Take(10).ToList());
+            Task ts = new Task(()=> context.Bikes.Skip(id * 10).Take(10).ToList());
+            ts.Start();
+            ts.Wait();
+            return View(ts.Result);
         }
         public IActionResult Order(int? id)
         {
