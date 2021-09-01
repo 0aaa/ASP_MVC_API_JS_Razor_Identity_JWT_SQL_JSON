@@ -12,44 +12,60 @@ namespace MvcIntro0.Controllers
 {
     public class SummaryController : Controller
     {
-        private StoreContext _context;
+        private readonly StoreContext _context;
+
+
         public SummaryController(StoreContext cntxt)
-        {
-            _context = cntxt;
-        }
+            => _context = cntxt;
+        
+
         public IActionResult Index(string returnUrl)
             => View(new SummaryIndexViewModel { Summary = GetSummary(), ReturnUrl = returnUrl });
+
 
         public IActionResult Addition(int bikeId, string returnUrl)
         {
             Bike item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
+
             if (item != null)
             {
-                var summary = GetSummary();
+                Summary summary = GetSummary();
                 summary.Addition(item, 1);
+
                 HttpContext.Session.Serialize("Summary", summary);
             }
+
             return RedirectToAction("Index", new { returnUrl });
         }
+
+
         public IActionResult Deletion(int bikeId, string returnUrl)
         {
             Bike item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
+
             if (item != null)
             {
-                var summary = GetSummary();
+                Summary summary = GetSummary();
                 summary.Deletion(item);
+
                 HttpContext.Session.Serialize("Summary", summary);
             }
+
             return RedirectToAction("Index", new { returnUrl });
         }
+
+
         private Summary GetSummary()
         {
             Summary allItems = HttpContext.Session.Deserialize<Summary>("Summary");
+
             if (allItems == null)
             {
                 allItems = new Summary();
+
                 HttpContext.Session.Serialize("Summary", allItems);
             }
+
             return allItems;
         }
     }

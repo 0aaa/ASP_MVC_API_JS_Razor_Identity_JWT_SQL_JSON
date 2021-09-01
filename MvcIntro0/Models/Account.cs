@@ -9,6 +9,7 @@ namespace MvcIntro0.Models
     public class Account : IdentityUser
     {
         public int? RoleId { get; set; }
+
         public Role Role { get; set; }
     }
 }

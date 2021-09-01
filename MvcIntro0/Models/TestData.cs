@@ -9,7 +9,7 @@ namespace MvcIntro0.Models
     {
         public static void Initialize(StoreContext cntxt)
         {
-            if (cntxt.Bikes.Count() > 0)
+            if (cntxt.Bikes.Any())
             {
                 return;
             }
@@ -45,6 +45,7 @@ namespace MvcIntro0.Models
                 new Bike { Line= "Top Fuel 9.9", Model= "XTR", Frame= "OCLV Mountain Carbon main frame & stays", Fork= "Fox Factory 34 Step-Cast", Shifter= "Shimano XTR M9100", Brake= "Shimano XTR M9100", Cost=9000},
                 new Bike { Line= "Émonda", Model= "SLR 7", Frame= "Ultralight 800 Series OCLV Carbon", Fork= "Emonda SLR full carbon", Shifter= "Shimano Ultegra Di2", Brake= "Shimano Ultegra", Cost=8800}
                 );
+
             cntxt.SaveChanges();
         }
     }

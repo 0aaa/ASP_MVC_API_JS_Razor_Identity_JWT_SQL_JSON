@@ -32,21 +32,20 @@
     </thead>
 
     <tbody>
-        @*@if (!User.IsInRole("admin"))
+        @if (!User.IsInRole("admin"))
         {
             <tr>
                 <td>@User.Identity.Name</td>
                 <td>
-                    <a href="~/Accounts/Update/@User.Id" class="btn border">Edit</a>
+                    <a asp-controller="User" asp-action="AddOrUpdate" asp-route-userName="@User.Identity.Name">Edit</a>
                 </td>
                 <td>
-                    <a href="~/Accounts/Delete/@User.Id" class="btn border">Delete</a>
+                    <a asp-controller="User" asp-action="Delete" asp-route-userName="@User.Identity.Name">Delete</a>
                 </td>
             </tr>
         }
         else
         {
-        }*@
             @foreach (Account acnt in Model)
             {
                 <tr>
@@ -54,13 +53,14 @@
                     <td>@acnt.UserName</td>
                     <td>@acnt.Role?.Title</td>
                     <td>
-                        <a href="~/User/AddOrUpdate/@acnt.Id" class="btn border">Edit</a>
+                        <a asp-controller="User" asp-action="AddOrUpdate" asp-route-userName="@acnt.UserName">Edit</a>
                     </td>
                     <td>
-                        <a href="~/User/Delete/@acnt.Id" class="btn border">Delete</a>
+                        <a asp-controller="User" asp-action="Delete" asp-route-userName="@acnt.UserName">Delete</a>
                     </td>
                 </tr>
             }
+        }
     </tbody>
 
 </table>

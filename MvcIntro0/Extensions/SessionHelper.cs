@@ -11,10 +11,13 @@ namespace MvcIntro0.Extensions
     {
         public static void Serialize(this ISession session, string key, object value)
             => session.SetString(key, JsonConvert.SerializeObject(value));
+
+
         public static GenType Deserialize<GenType>(this ISession session, string key)
         {
-            var value = session.GetString(key);
-            return value == null ? default(GenType) : JsonConvert.DeserializeObject<GenType>(value);
+            string value = session.GetString(key);
+
+            return value == null ? default : JsonConvert.DeserializeObject<GenType>(value);
         }
     }
 }

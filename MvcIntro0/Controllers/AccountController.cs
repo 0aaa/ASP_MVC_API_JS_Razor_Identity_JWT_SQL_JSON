@@ -17,14 +17,18 @@ namespace MvcIntro0.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<Account> _accountManager;
-        private readonly SignInManager<Account> _registrationManager;
+        private readonly SignInManager<Account> _loginManager;
 
 
-        public AccountController(UserManager<Account> acntMngr, SignInManager<Account> rgstrtnMngr)
+        public AccountController(UserManager<Account> acntMngr, SignInManager<Account> lgInMngr)
         {
             _accountManager = acntMngr;
-            _registrationManager = rgstrtnMngr;
+            _loginManager = lgInMngr;
 
+            if (!acntMngr.GetUsersInRoleAsync("admin").Result.Any())
+            {
+                acntMngr.CreateAsync(new Account { UserName = "admin", RoleId = 1 }, "Admin_1").Wait();
+            }
         }
 
 
@@ -46,7 +50,7 @@ namespace MvcIntro0.Controllers
 
                 if (identityResult.Succeeded)
                 {
-                    //await _registrationManager.SignInAsync(currentAccount, false);
+                    await _loginManager.SignInAsync(currentAccount, false);
                     return RedirectToAction("Login");
 
                 }
@@ -70,7 +74,7 @@ namespace MvcIntro0.Controllers
             if (ModelState.IsValid)
             {
                 Microsoft.AspNetCore.Identity.SignInResult loginRes
-                    = await _registrationManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
+                    = await _loginManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
 
                 if (loginRes.Succeeded)
                 {
@@ -96,7 +100,7 @@ namespace MvcIntro0.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _registrationManager.SignOutAsync();
+            await _loginManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }

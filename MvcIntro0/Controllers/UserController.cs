@@ -14,21 +14,17 @@ namespace MvcIntro0.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<Account> _accountManager;
-        //private readonly SignInManager<Account> _registrationManager;
 
 
-        public UserController(UserManager<Account> acntMngr/*, SignInManager<Account> rgstrtnMngr*/)
-        {
-            //_registrationManager = rgstrtnMngr;
-            _accountManager = acntMngr;
-        }
+        public UserController(UserManager<Account> acntMngr)
+            => _accountManager = acntMngr;
 
 
         public IActionResult Index()
             => View(_accountManager.Users.Include(acnt => acnt.Role).ToList());
 
-        public async Task<IActionResult> AddOrUpdate(string id)
-            => View(await _accountManager.FindByIdAsync(id));
+        public async Task<IActionResult> AddOrUpdate(string userName)
+            => View(await _accountManager.FindByNameAsync(userName));
 
 
         [HttpPost]
@@ -74,9 +70,9 @@ namespace MvcIntro0.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(string userName)
         {
-            _accountManager.DeleteAsync(_accountManager.FindByIdAsync(id).Result);
+            _accountManager.DeleteAsync(_accountManager.FindByNameAsync(userName).Result);
             return RedirectToAction("Index");
         }
     }
