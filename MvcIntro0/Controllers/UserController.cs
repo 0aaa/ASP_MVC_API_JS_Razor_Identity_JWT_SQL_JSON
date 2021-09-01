@@ -69,10 +69,10 @@ namespace MvcIntro0.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
         public IActionResult Delete(string userName)
         {
             _accountManager.DeleteAsync(_accountManager.FindByNameAsync(userName).Result);
+
             return RedirectToAction("Index");
         }
     }

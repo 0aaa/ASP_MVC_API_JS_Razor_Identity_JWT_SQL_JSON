@@ -35,7 +35,9 @@
         @if (!User.IsInRole("admin"))
         {
             <tr>
+                <td></td>
                 <td>@User.Identity.Name</td>
+                <td></td>
                 <td>
                     <a asp-controller="User" asp-action="AddOrUpdate" asp-route-userName="@User.Identity.Name">Edit</a>
                 </td>

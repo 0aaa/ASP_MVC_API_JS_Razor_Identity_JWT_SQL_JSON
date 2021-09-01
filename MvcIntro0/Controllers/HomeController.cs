@@ -28,17 +28,13 @@ namespace MvcIntro0.Controllers
                 ViewBag.Gratitude = $"Thank you, {purchase.FirstName}, for your order. We love you, come back soon!";
             }
 
-
-            return orderBy switch
-            {
-                "Line" => View(context.Bikes.OrderBy(item => item.Line).Skip(id * 10).Take(10).ToList()),
-                "Model" => View(context.Bikes.OrderBy(item => item.Model).Skip(id * 10).Take(10).ToList()),
-                "Frame" => View(context.Bikes.OrderBy(item => item.Frame).Skip(id * 10).Take(10).ToList()),
-                "Fork" => View(context.Bikes.OrderBy(item => item.Fork).Skip(id * 10).Take(10).ToList()),
-                "Shifter" => View(context.Bikes.OrderBy(item => item.Shifter).Skip(id * 10).Take(10).ToList()),
-                "Brake" => View(context.Bikes.OrderBy(item => item.Brake).Skip(id * 10).Take(10).ToList()),
-                "Cost" => View(context.Bikes.OrderBy(item => item.Cost).Skip(id * 10).Take(10).ToList())
-            };
+            return View(context.Bikes
+                        .ToList()
+                        .OrderBy(item => item
+                                    .GetType()
+                                    .GetProperty(orderBy)
+                                    .GetValue(item))
+                        .Skip(id * 10).Take(10));
         }
 
 
