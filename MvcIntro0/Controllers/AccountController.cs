@@ -20,14 +20,27 @@ namespace MvcIntro0.Controllers
         private readonly SignInManager<Account> _loginManager;
 
 
-        public AccountController(UserManager<Account> acntMngr, SignInManager<Account> lgInMngr)
+        public AccountController(UserManager<Account> acntMngr, SignInManager<Account> lgInMngr, RoleManager<IdentityRole> rleMngr)
         {
             _accountManager = acntMngr;
             _loginManager = lgInMngr;
 
-            if (!acntMngr.GetUsersInRoleAsync("admin").Result.Any())
+            if (!acntMngr.Users.Any())
             {
-                acntMngr.CreateAsync(new Account { UserName = "admin", RoleId = 1 }, "Admin_1").Wait();
+                string[] userAndRoleNames = { "admin", "customer" };
+                string[] userPasswords = { "Admin_1", "Customer_1" };
+
+                rleMngr.CreateAsync(new IdentityRole { Name = "admin" }).Wait();
+                rleMngr.CreateAsync(new IdentityRole { Name = "customer" }).Wait();
+
+                for (int i = 0; i < userAndRoleNames.Length; i++)
+                {
+                    acntMngr.CreateAsync(new Account { UserName = userAndRoleNames[i], Role = rleMngr.FindByNameAsync(userAndRoleNames[i]).Result }, userPasswords[i])
+                        .ContinueWith(delegate
+                            {
+                                acntMngr.AddToRoleAsync(acntMngr.FindByNameAsync(userAndRoleNames[i]).Result, userAndRoleNames[i]).Wait();
+                            }).Wait();
+                }
             }
         }
 
@@ -45,7 +58,7 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, RoleId = 1 };
+                Account currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, Role = null };
                 IdentityResult identityResult = await _accountManager.CreateAsync(currentAccount, rvm.Password);
 
                 if (identityResult.Succeeded)

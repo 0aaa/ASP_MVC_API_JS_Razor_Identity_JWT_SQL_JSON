@@ -15,11 +15,11 @@ namespace MvcIntro0
     {
         public static void Main(string[] args)
         {
-            IHost hst = CreateHostBuilder(args).Build();
+            var hst = CreateHostBuilder(args).Build();
 
             using (IServiceScope scpe = hst.Services.CreateScope())
             {
-                IServiceProvider services = scpe.ServiceProvider;
+                var services = scpe.ServiceProvider;
             
                 try
                 {

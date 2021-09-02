@@ -69,7 +69,7 @@ namespace MvcIntro0.Controllers
 
         private void ConfirmationMailSending(Purchase purchase)
         {
-            SmtpClient SmtpC = new SmtpClient("smpt.gmail.com", 587)
+            var SmtpC = new SmtpClient("smpt.gmail.com", 587)
             {
                 Credentials = new NetworkCredential("sender", "password"),
                 EnableSsl = true

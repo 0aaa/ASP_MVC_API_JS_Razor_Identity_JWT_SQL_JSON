@@ -38,7 +38,7 @@ namespace MvcIntro0.Controllers
             }
             if (newBike.BikeId != null)
             {
-                Bike currentBike = _context.Bikes.Find(newBike.BikeId);
+                var currentBike = _context.Bikes.Find(newBike.BikeId);
                 currentBike.Line = newBike.Line;
                 currentBike.Model = newBike.Model;
                 currentBike.Frame = newBike.Frame;
@@ -64,14 +64,5 @@ namespace MvcIntro0.Controllers
             
             return RedirectToAction("Index");
         }
-
-
-        /*public IActionResult ChangeAccountAuthorisation(string id)
-        {
-            _context.Users.Find(id).RoleId = 1;
-            _context.SaveChanges();
-        
-            return RedirectToAction("Index");
-        }*/
     }
 }

@@ -25,11 +25,11 @@ namespace MvcIntro0.Controllers
 
         public IActionResult Addition(int bikeId, string returnUrl)
         {
-            Bike item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
+            var item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
 
             if (item != null)
             {
-                Summary summary = GetSummary();
+                var summary = GetSummary();
                 summary.Addition(item, 1);
 
                 HttpContext.Session.Serialize("Summary", summary);
@@ -41,11 +41,11 @@ namespace MvcIntro0.Controllers
 
         public IActionResult Deletion(int bikeId, string returnUrl)
         {
-            Bike item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
+            var item = _context.Bikes.FirstOrDefault(item => item.BikeId == bikeId);
 
             if (item != null)
             {
-                Summary summary = GetSummary();
+                var summary = GetSummary();
                 summary.Deletion(item);
 
                 HttpContext.Session.Serialize("Summary", summary);
@@ -57,7 +57,7 @@ namespace MvcIntro0.Controllers
 
         private Summary GetSummary()
         {
-            Summary allItems = HttpContext.Session.Deserialize<Summary>("Summary");
+            var allItems = HttpContext.Session.Deserialize<Summary>("Summary");
 
             if (allItems == null)
             {

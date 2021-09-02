@@ -22,8 +22,8 @@
 
     @if (User.IsInRole("admin"))
     {
-        @Html.ValidationMessageFor(acnt => acnt.RoleId)
-        @Html.TextBoxFor(acnt => acnt.RoleId, new { @class = "form-control mb-1", placeholder = "Role id (1 for admin, 2 for customer)" })
+        @Html.ValidationMessageFor(acnt => acnt.Role.Name)
+        @Html.TextBoxFor(acnt => acnt.Role.Name, new { @class = "form-control mb-1", placeholder = "Role: admin, customer" })
     }
 
     @Html.ValidationMessageFor(acnt => acnt.Email)

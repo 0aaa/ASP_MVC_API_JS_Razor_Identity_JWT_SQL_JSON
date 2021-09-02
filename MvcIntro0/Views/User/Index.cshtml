@@ -14,7 +14,7 @@
 
 @if (User.IsInRole("admin"))
 {
-    <a href="~/Accounts/Add" class="btn border">Add account</a>
+    <a href="~/User/AddOrUpdate" class="btn border">Add account</a>
 }
 
 <a href="~/Home/Index" class="btn border">Back</a>
@@ -23,9 +23,12 @@
 
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
-            <th>Role</th>
+            @if (User.IsInRole("admin"))
+            {
+                <th>Id</th>
+                <th>Role</th>
+            }
             <th></th>
             <th></th>
         </tr>
@@ -35,9 +38,7 @@
         @if (!User.IsInRole("admin"))
         {
             <tr>
-                <td></td>
                 <td>@User.Identity.Name</td>
-                <td></td>
                 <td>
                     <a asp-controller="User" asp-action="AddOrUpdate" asp-route-userName="@User.Identity.Name">Edit</a>
                 </td>
@@ -48,12 +49,12 @@
         }
         else
         {
-            @foreach (Account acnt in Model)
+            @foreach (var acnt in Model)
             {
                 <tr>
-                    <td>@acnt.Id</td>
                     <td>@acnt.UserName</td>
-                    <td>@acnt.Role?.Title</td>
+                    <td>@acnt.Id</td>
+                    <td>@acnt.Role?.Name</td>
                     <td>
                         <a asp-controller="User" asp-action="AddOrUpdate" asp-route-userName="@acnt.UserName">Edit</a>
                     </td>

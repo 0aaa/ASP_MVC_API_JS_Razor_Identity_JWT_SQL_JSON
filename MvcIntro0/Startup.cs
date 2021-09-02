@@ -25,10 +25,13 @@ namespace MvcIntro0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string cnctn = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<StoreContext>(optns => optns.UseSqlServer(cnctn));
+            services.AddDbContext<StoreContext>(optns
+                => optns.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<Account, IdentityRole>().AddEntityFrameworkStores<StoreContext>();
+
             services.AddControllersWithViews();
+
             services.AddSession();
             /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(optns =>
@@ -42,6 +45,7 @@ namespace MvcIntro0
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -53,10 +57,13 @@ namespace MvcIntro0
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
