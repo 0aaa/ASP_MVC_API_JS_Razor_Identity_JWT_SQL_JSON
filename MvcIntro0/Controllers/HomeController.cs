@@ -33,15 +33,13 @@ namespace MvcIntro0.Controllers
 
             var items = context.Bikes
                         .AsEnumerable()
-                        .OrderBy(item => item
-                                    .GetType()
+                        .OrderBy(item => typeof(Bike)
                                     .GetProperty(orderBy)
                                     .GetValue(item))
                         .Skip(id * 10).Take(10)
                         .ToList();
 
 
-            var propertiesSource = new Bike();
             var propertyNames = new List<string>();
             var propertySelect_s = new List<List<string>>();
 
@@ -53,28 +51,27 @@ namespace MvcIntro0.Controllers
             var returnParameter = new ItemsViewModel();
 
 
-            for (int i = 1; i < propertiesSource.GetType().GetProperties().Length; i++)
+            for (int i = 0; i < typeof(Bike).GetProperties().Length - 1; i++)
             {
-                propertyNames.Add(propertiesSource.GetType()
-                                                    .GetProperties()[i].Name);
+                propertyNames.Add(typeof(Bike).GetProperties()[i + 1].Name);
 
                 propertySelect_s.Add(new List<string> { "Select" });
 
-                propertySelect_s[i - 1].AddRange(items.Select(item
-                                                        => $"{item.GetType().GetProperty(propertyNames[i - 1]).GetValue(item)}")
+                propertySelect_s[i].AddRange(items.Select(item
+                                                        => $"{typeof(Bike).GetProperty(propertyNames[i]).GetValue(item)}")
                                                         .Distinct());
 
 
-                selectedItems = arguments[i - 1] == "Select"
+                selectedItems = arguments[i] == "Select"
                                 ? selectedItems
                                 : selectedItems.Where(item
-                                                => $"{propertiesSource.GetType().GetProperty(propertyNames[i - 1]).GetValue(item)}" == arguments[i - 1])
+                                                => $"{typeof(Bike).GetProperty(propertyNames[i]).GetValue(item)}" == arguments[i])
                                                 .ToList();
 
 
                 returnParameter.GetType()
-                                .GetProperties()[i - 1]
-                                .SetValue(returnParameter, new SelectList(propertySelect_s[i - 1]));
+                                .GetProperties()[i]
+                                .SetValue(returnParameter, new SelectList(propertySelect_s[i]));
             }
 
             returnParameter.Items = selectedItems;

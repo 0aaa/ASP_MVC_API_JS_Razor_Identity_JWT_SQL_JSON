@@ -30,11 +30,10 @@ namespace MvcIntro0.Controllers
                 string[] userAndRoleNames = { "admin", "customer" };
                 string[] userPasswords = { "Admin_1", "Customer_1" };
 
-                rleMngr.CreateAsync(new IdentityRole { Name = "admin" }).Wait();
-                rleMngr.CreateAsync(new IdentityRole { Name = "customer" }).Wait();
-
                 for (int i = 0; i < userAndRoleNames.Length; i++)
                 {
+                    rleMngr.CreateAsync(new IdentityRole { Name = userAndRoleNames[i] }).Wait();
+
                     acntMngr.CreateAsync(new Account { UserName = userAndRoleNames[i], Role = rleMngr.FindByNameAsync(userAndRoleNames[i]).Result }, userPasswords[i])
                         .ContinueWith(delegate
                             {
