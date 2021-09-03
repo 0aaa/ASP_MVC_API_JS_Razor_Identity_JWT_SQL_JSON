@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MvcIntro0.Models;
+using MvcIntro0.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,20 +23,63 @@ namespace MvcIntro0.Controllers
             => context = cntxt;
 
 
-        public IActionResult Index(int id, Purchase purchase, string orderBy = "Line")
+        public IActionResult Index(int id, Purchase purchase, string orderBy = "Line", string line = "Select", string model = "Select", string frame = "Select",
+            string fork = "Select", string shifter = "Select", string brake = "Select", string cost = "Select")
         {
             if (purchase.FirstName != null)
             {
                 ViewBag.Gratitude = $"Thank you, {purchase.FirstName}, for your order. We love you, come back soon!";
             }
 
-            return View(context.Bikes
-                        .ToList()
+            var items = context.Bikes
+                        .AsEnumerable()
                         .OrderBy(item => item
                                     .GetType()
                                     .GetProperty(orderBy)
                                     .GetValue(item))
-                        .Skip(id * 10).Take(10));
+                        .Skip(id * 10).Take(10)
+                        .ToList();
+
+
+            var propertiesSource = new Bike();
+            var propertyNames = new List<string>();
+            var propertySelect_s = new List<List<string>>();
+
+
+            var selectedItems = items;
+            string[] arguments = { line, model, frame, fork, shifter, brake, cost };
+
+
+            var returnParameter = new ItemsViewModel();
+
+
+            for (int i = 1; i < propertiesSource.GetType().GetProperties().Length; i++)
+            {
+                propertyNames.Add(propertiesSource.GetType()
+                                                    .GetProperties()[i].Name);
+
+                propertySelect_s.Add(new List<string> { "Select" });
+
+                propertySelect_s[i - 1].AddRange(items.Select(item
+                                                        => $"{item.GetType().GetProperty(propertyNames[i - 1]).GetValue(item)}")
+                                                        .Distinct());
+
+
+                selectedItems = arguments[i - 1] == "Select"
+                                ? selectedItems
+                                : selectedItems.Where(item
+                                                => $"{propertiesSource.GetType().GetProperty(propertyNames[i - 1]).GetValue(item)}" == arguments[i - 1])
+                                                .ToList();
+
+
+                returnParameter.GetType()
+                                .GetProperties()[i - 1]
+                                .SetValue(returnParameter, new SelectList(propertySelect_s[i - 1]));
+            }
+
+            returnParameter.Items = selectedItems;
+
+            return View(returnParameter);
         }
 
 

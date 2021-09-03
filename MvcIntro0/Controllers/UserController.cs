@@ -36,7 +36,7 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userCredentials.Id != null)//cookies need to be cleared
+                if (userCredentials.Id != null)// Cookies need to be cleared or store user Id.
                 {
                     var userTemp = _accountManager.FindByIdAsync(userCredentials.Id).Result;
 

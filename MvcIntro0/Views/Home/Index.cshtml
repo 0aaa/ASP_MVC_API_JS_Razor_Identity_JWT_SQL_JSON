@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bike>
+﻿@model MvcIntro0.Models.ViewModels.ItemsViewModel
 @{
     ViewData["Title"] = "Bike store";
 }
@@ -12,7 +12,25 @@
 
     <h4>Items</h4>
 
-    <table class="table">
+    <form method="get">
+        @Html.LabelFor(Model=>Model.Line)
+        <select name="Line" asp-items="Model.Line" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Model)
+        <select name="Model" asp-items="Model.Model" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Frame)
+        <select name="Frame" asp-items="Model.Frame" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Fork)
+        <select name="Fork" asp-items="Model.Fork" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Shifter)
+        <select name="Shifter" asp-items="Model.Shifter" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Brake)
+        <select name="Brake" asp-items="Model.Brake" class="form-control mb-1"></select>
+        @Html.LabelFor(Model=>Model.Cost)
+        <select name="Cost" asp-items="Model.Cost" class="form-control mb-1"></select>
+        <button type="submit" class="btn border">Submit</button>
+    </form>
+
+    <table class="table mt-2">
 
         <thead>
             <tr>
@@ -29,7 +47,7 @@
         </thead>
 
         <tbody>
-            @foreach (var bike in Model)
+            @foreach (var bike in Model.Items)
             {
                 <tr>
                     <td>@bike.Line</td>
@@ -43,9 +61,9 @@
                         <a href="~/Home/Order/@bike.BikeId" class="btn border">Buy</a>
                     </td>
                     <td>
-                        @using(Html.BeginForm("Addition", "Summary"))
+                        @using (Html.BeginForm("Addition", "Summary"))
                         {
-                            <input type="hidden" name="BikeId" value="@bike.BikeId"/>
+                            <input type="hidden" name="BikeId" value="@bike.BikeId" />
                             @Html.Hidden("returnUrl", Context.Request.Path.Value)
                             <button type="submit" class="btn border">Choose</button>
                         }
