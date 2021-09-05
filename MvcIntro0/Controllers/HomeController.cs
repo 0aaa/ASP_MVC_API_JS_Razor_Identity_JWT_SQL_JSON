@@ -69,9 +69,8 @@ namespace MvcIntro0.Controllers
                                                 .ToList();
 
 
-                returnParameter.GetType()
-                                .GetProperties()[i]
-                                .SetValue(returnParameter, new SelectList(propertySelect_s[i]));
+                typeof(ItemsViewModel).GetProperties()[i]
+                                .SetValue(returnParameter, new SelectList(propertySelect_s[i], arguments[i]));
             }
 
             returnParameter.Items = selectedItems;

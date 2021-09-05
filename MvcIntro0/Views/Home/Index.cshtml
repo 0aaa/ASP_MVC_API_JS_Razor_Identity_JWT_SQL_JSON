@@ -12,67 +12,82 @@
 
     <h4>Items</h4>
 
-    <form method="get">
-        @Html.LabelFor(Model=>Model.Line)
-        <select name="Line" asp-items="Model.Line" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Model)
-        <select name="Model" asp-items="Model.Model" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Frame)
-        <select name="Frame" asp-items="Model.Frame" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Fork)
-        <select name="Fork" asp-items="Model.Fork" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Shifter)
-        <select name="Shifter" asp-items="Model.Shifter" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Brake)
-        <select name="Brake" asp-items="Model.Brake" class="form-control mb-1"></select>
-        @Html.LabelFor(Model=>Model.Cost)
-        <select name="Cost" asp-items="Model.Cost" class="form-control mb-1"></select>
-        <button type="submit" class="btn border">Submit</button>
-    </form>
+    <div class="row">
 
-    <table class="table mt-2">
+        <table class="table col-10">
 
-        <thead>
-            <tr>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Brake">Brake</a></th>
-                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Cost">Cost</a></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var bike in Model.Items)
-            {
+            <thead>
                 <tr>
-                    <td>@bike.Line</td>
-                    <td>@bike.Model</td>
-                    <td>@bike.Frame</td>
-                    <td>@bike.Fork</td>
-                    <td>@bike.Shifter</td>
-                    <td>@bike.Brake</td>
-                    <td>$@bike.Cost</td>
-                    <td>
-                        <a href="~/Home/Order/@bike.BikeId" class="btn border">Buy</a>
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("Addition", "Summary"))
-                        {
-                            <input type="hidden" name="BikeId" value="@bike.BikeId" />
-                            @Html.Hidden("returnUrl", Context.Request.Path.Value)
-                            <button type="submit" class="btn border">Choose</button>
-                        }
-                    </td>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Brake">Brake</a></th>
+                    <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Cost">Cost</a></th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var bike in Model.Items)
+                {
+                    <tr>
+                        <td>@bike.Line</td>
+                        <td>@bike.Model</td>
+                        <td>@bike.Frame</td>
+                        <td>@bike.Fork</td>
+                        <td>@bike.Shifter</td>
+                        <td>@bike.Brake</td>
+                        <td>$@bike.Cost</td>
+                        <td>
+                            <a href="~/Home/Order/@bike.BikeId" class="btn border">Buy</a>
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Addition", "Summary"))
+                            {
+                                <input type="hidden" name="BikeId" value="@bike.BikeId" />
+                                
+                                @Html.Hidden("returnUrl", Context.Request.Path.Value)
+
+                                <button type="submit" class="btn border">Choose</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+        <form method="get" class="col-2">
+
+            @Html.LabelFor(Model => Model.Line)
+            <select name="Line" asp-items="Model.Line" class="form-control mb-1"></select>
+
+            @Html.LabelFor(Model => Model.Model)
+            <select name="Model" asp-items="Model.Model" class="form-control mb-1"></select>
+            
+            @Html.LabelFor(Model => Model.Frame)
+            <select name="Frame" asp-items="Model.Frame" class="form-control mb-1"></select>
+            
+            @Html.LabelFor(Model => Model.Fork)
+            <select name="Fork" asp-items="Model.Fork" class="form-control mb-1"></select>
+            
+            @Html.LabelFor(Model => Model.Shifter)
+            <select name="Shifter" asp-items="Model.Shifter" class="form-control mb-1"></select>
+            
+            @Html.LabelFor(Model => Model.Brake)
+            <select name="Brake" asp-items="Model.Brake" class="form-control mb-1"></select>
+            
+            @Html.LabelFor(Model => Model.Cost)
+            <select name="Cost" asp-items="Model.Cost" class="form-control mb-1"></select>
+            
+            <button type="submit" class="btn border">Submit</button>
+        
+        </form>
+
+    </div>
 
     <ul class="pagination justify-content-center">
         @for (int pageNumber = 0; pageNumber < 3; pageNumber++)
