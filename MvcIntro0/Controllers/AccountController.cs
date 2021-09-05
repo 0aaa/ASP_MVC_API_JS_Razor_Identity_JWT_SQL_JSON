@@ -57,7 +57,7 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, Role = null };
+                var currentAccount = new Account { Email = rvm.Name, UserName = rvm.Name, Role = null };
                 IdentityResult identityResult = await _accountManager.CreateAsync(currentAccount, rvm.Password);
 
                 if (identityResult.Succeeded)
