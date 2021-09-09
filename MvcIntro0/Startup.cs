@@ -33,12 +33,6 @@ namespace MvcIntro0
             services.AddControllersWithViews();
 
             services.AddSession();
-            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(optns =>
-                {
-                    optns.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
-                    optns.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
-                });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +50,11 @@ namespace MvcIntro0
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseStatusCodePages("text/html", "404");
+
             app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
@@ -66,10 +64,14 @@ namespace MvcIntro0
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}/{purchase?}")
-            );
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{controller=Home}/{action=Index}/{id?}/{purchase?}");
+
+                endpoints.MapControllers();
+            });
         }
     }
 }
