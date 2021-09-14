@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using MvcIntro0.Config;
 using MvcIntro0.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +32,26 @@ namespace MvcIntro0
                 => optns.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<Account, IdentityRole>().AddEntityFrameworkStores<StoreContext>();
+
+            services.AddAuthentication(optns =>
+            {
+                optns.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                optns.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(optns =>
+                {
+                    optns.RequireHttpsMetadata = false;
+                    optns.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthCredentials.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthCredentials.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthCredentials.GetKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
 
             services.AddControllersWithViews();
 

@@ -87,11 +87,14 @@ async function getItems() {
 
 async function addItem(line, model, frame, fork, shifter, brake, cost) {
 
+    const tkn = sessionStorage.getItem(tokenKey)
+
     const fetchResult = await fetch('/api/bikes', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + tkn
         },
         body: JSON.stringify({
             line,
@@ -206,3 +209,31 @@ function printAlert(err) {
 
 
 getItems()
+
+
+
+function getTokenAsync() {
+
+    const userInput = {
+        name: document.getElementById('name').value,
+        password: document.getElementById('password').value
+    }
+
+    const fetchResult = await fetch('api/user/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userInput)
+    })
+
+    const data = await fetchResult.json()
+
+    if (fetchResult.ok === true) {
+        sessionStorage.setItem(tokenKey, data.access_token)
+    } else {
+        alert(fetchResult.status + ' ' + fetchResult.errorText)
+    }
+}
+
+document.getElementById('signingInForm').addEventListener('submit', getTokenAsync())
