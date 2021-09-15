@@ -5,9 +5,7 @@ using MvcIntro0.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers.API
 {
@@ -16,33 +14,44 @@ namespace MvcIntro0.Controllers.API
 
     public class UserController : Controller
     {
-        private User User { get; set; }//
+        private User Account { get; set; }
+
 
         public UserController()
         {
-            User = new User
+            Account = new User
             {
                 Name = "admin",
                 Password = "admin",
                 Role = "admin"
             };
         }
+
+
         private ClaimsIdentity GetIdentity(string name, string password)
         {
-            if (User.Name == name && User.Password == password)
+            if (Account.Name == name && Account.Password == password)
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, User.Name),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, User.Role)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, Account.Name),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, Account.Role)
                 };
+
+
                 return new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             }
+
+
             return null;
         }
+
+
+        [HttpPost]
         public IActionResult Token(User usr)
         {
             var idntty = GetIdentity(usr.Name, usr.Password);
+
             if (idntty != null)
             {
                 var tkn = new JwtSecurityToken(
@@ -53,13 +62,18 @@ namespace MvcIntro0.Controllers.API
                     expires: DateTime.Now.Add(TimeSpan.FromMinutes(AuthCredentials.LIFETIME)),
                     signingCredentials: new SigningCredentials(AuthCredentials.GetKey(), SecurityAlgorithms.HmacSha256)
                     );
+
                 var encodedTkn = new JwtSecurityTokenHandler().WriteToken(tkn);
+
+
                 return Json(new
                 {
                     access_token = encodedTkn,
                     username = idntty.Name
                 });
             }
+
+
             return BadRequest(new { err = "Wrong login or password" });
         }
     }

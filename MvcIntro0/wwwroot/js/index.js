@@ -1,4 +1,8 @@
-﻿function addRow(bike) {
+﻿const tokenKey = "app_token"
+
+
+
+function addRow(bike) {
 
     const row = document.createElement('tr')
     row.id = bike.bikeId
@@ -71,7 +75,14 @@
 
 async function getItems() {
 
-    const fetchResult = await fetch('/api/bikes')
+    const tkn = sessionStorage.getItem(tokenKey)
+
+    const fetchResult = await fetch('/api/bikes', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'bearer ' + tkn
+        }
+    })
 
     if (fetchResult.ok == true) {
 
@@ -87,14 +98,11 @@ async function getItems() {
 
 async function addItem(line, model, frame, fork, shifter, brake, cost) {
 
-    const tkn = sessionStorage.getItem(tokenKey)
-
     const fetchResult = await fetch('/api/bikes', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + tkn
         },
         body: JSON.stringify({
             line,
@@ -149,6 +157,7 @@ async function editItem(bikeId, line, model, frame, fork, shifter, brake, cost) 
     brake = brake == '' ? document.getElementById(bikeId).children[5].innerText : brake
     cost = cost == 0 ? document.getElementById(bikeId).children[6].innerText : cost
 
+
     const fetchResult = await fetch(`/api/bikes`, {
         method: 'PUT',
         headers: {
@@ -166,6 +175,7 @@ async function editItem(bikeId, line, model, frame, fork, shifter, brake, cost) 
             cost: parseInt(cost)
         })
     })
+
     if (fetchResult.ok === true) {
 
         document.getElementById(bikeId).replaceWith(addRow({ bikeId, line, model, frame, fork, shifter, brake, cost }))
@@ -208,11 +218,7 @@ function printAlert(err) {
 
 
 
-getItems()
-
-
-
-function getTokenAsync() {
+async function getTokenAsync() {
 
     const userInput = {
         name: document.getElementById('name').value,
@@ -230,10 +236,20 @@ function getTokenAsync() {
     const data = await fetchResult.json()
 
     if (fetchResult.ok === true) {
+
         sessionStorage.setItem(tokenKey, data.access_token)
     } else {
-        alert(fetchResult.status + ' ' + fetchResult.errorText)
+
+        alert(`Error: ${fetchResult.status}`)
     }
 }
 
-document.getElementById('signingInForm').addEventListener('submit', getTokenAsync())
+
+
+document.getElementById('signingInForm').addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    await getTokenAsync()
+
+    getItems()
+})

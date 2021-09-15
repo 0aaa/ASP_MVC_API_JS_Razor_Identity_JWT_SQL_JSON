@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Models
 {
@@ -18,6 +15,9 @@ namespace MvcIntro0.Models
 
         [StringLength(100, ErrorMessage="Wrong model length", MinimumLength = 2)]
         public string Model { get; set; }
+
+
+        public string Image64 { get; set; }
 
 
         [StringLength(100, ErrorMessage = "Wrong frame length", MinimumLength = 2)]
