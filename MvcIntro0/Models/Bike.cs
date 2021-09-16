@@ -17,7 +17,7 @@ namespace MvcIntro0.Models
         public string Model { get; set; }
 
 
-        public string Image64 { get; set; }
+        //public string Image64 { get; set; }
 
 
         [StringLength(100, ErrorMessage = "Wrong frame length", MinimumLength = 2)]

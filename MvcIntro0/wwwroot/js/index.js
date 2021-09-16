@@ -1,4 +1,4 @@
-﻿const tokenKey = "app_token"
+﻿const authTkn = "auth_token"
 
 
 
@@ -53,7 +53,7 @@ function addRow(bike) {
         const fetchResult = await fetch(`/api/bikes/${bike.bikeId}`, {
             method: 'DELETE'
         })
-        if (fetchResult.ok === true) {
+        if (fetchResult.ok == true) {
 
             document.getElementById(bike.bikeId).remove()
 
@@ -75,7 +75,7 @@ function addRow(bike) {
 
 async function getItems() {
 
-    const tkn = sessionStorage.getItem(tokenKey)
+    const tkn = sessionStorage.getItem(authTkn)
 
     const fetchResult = await fetch('/api/bikes', {
         method: 'GET',
@@ -115,7 +115,7 @@ async function addItem(line, model, frame, fork, shifter, brake, cost) {
         })
     })
 
-    if (fetchResult.ok === true) {
+    if (fetchResult.ok == true) {
 
         document.getElementById('alertMessage').style.display = 'none'
 
@@ -176,7 +176,7 @@ async function editItem(bikeId, line, model, frame, fork, shifter, brake, cost) 
         })
     })
 
-    if (fetchResult.ok === true) {
+    if (fetchResult.ok == true) {
 
         document.getElementById(bikeId).replaceWith(addRow({ bikeId, line, model, frame, fork, shifter, brake, cost }))
 
@@ -235,21 +235,31 @@ async function getTokenAsync() {
 
     const data = await fetchResult.json()
 
-    if (fetchResult.ok === true) {
+    if (fetchResult.ok == true) {
 
-        sessionStorage.setItem(tokenKey, data.access_token)
+        sessionStorage.setItem(authTkn, data.access_token)
+
+        return true
     } else {
 
+        sessionStorage.removeItem(authTkn)
+
         alert(`Error: ${fetchResult.status}`)
+
+        return false
     }
 }
 
 
 
 document.getElementById('signingInForm').addEventListener('submit', async (event) => {
+
     event.preventDefault()
 
-    await getTokenAsync()
+    if (await getTokenAsync() == false) {
+
+        location.reload()
+    }
 
     getItems()
 })
