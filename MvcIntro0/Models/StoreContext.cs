@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Models
 {
@@ -16,17 +11,5 @@ namespace MvcIntro0.Models
 
         public StoreContext(DbContextOptions<StoreContext> optns) : base(optns)
             => Database.EnsureCreated();
-
-
-        protected override void OnModelCreating(ModelBuilder mdlBldr)
-        {
-            //mdlBldr.Entity<Role>().HasData(new []
-            //{
-            //    new Role { RoleId = 1, Title = "admin" },
-            //    new Role { RoleId = 2, Title = "customer" }
-            //});
-
-            base.OnModelCreating(mdlBldr);
-        }
     }
 }

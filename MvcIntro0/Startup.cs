@@ -1,17 +1,11 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcIntro0.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcIntro0
 {
@@ -33,12 +27,6 @@ namespace MvcIntro0
             services.AddControllersWithViews();
 
             services.AddSession();
-            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(optns =>
-                {
-                    optns.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
-                    optns.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Logining");
-                });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

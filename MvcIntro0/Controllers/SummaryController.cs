@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MvcIntro0.Extensions;
 using MvcIntro0.Models;
 using MvcIntro0.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers
 {

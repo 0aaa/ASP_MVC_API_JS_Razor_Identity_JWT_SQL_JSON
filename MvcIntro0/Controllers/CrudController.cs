@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MvcIntro0.Models;
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers
 {
@@ -17,30 +16,37 @@ namespace MvcIntro0.Controllers
 
         public CrudController(StoreContext cntxt)
             => _context = cntxt;
-        
+
 
         public IActionResult Index()
             => View(_context.Bikes.ToList());
-        
+
         public IActionResult Addition(int? id)
             => View(_context.Bikes.Find(id));
-        
+
         public IActionResult AccountRole()
             => View(_context.Users.Include(acnt => acnt.Role).ToList());
 
 
         [HttpPost]
-        public IActionResult Addition(Bike newBike)
+        public IActionResult Addition(Bike newBike, IFormFile image)
         {
             if (!ModelState.IsValid)
             {
                 return View(newBike);
             }
+            var mmryStrm = new MemoryStream();
+            image.CopyTo(mmryStrm);
+
+            newBike.Image64 = mmryStrm.ToArray();
+
             if (newBike.BikeId != null)
             {
+
                 var currentBike = _context.Bikes.Find(newBike.BikeId);
                 currentBike.Line = newBike.Line;
                 currentBike.Model = newBike.Model;
+                currentBike.Image64 = newBike.Image64;
                 currentBike.Frame = newBike.Frame;
                 currentBike.Fork = newBike.Fork;
                 currentBike.Shifter = newBike.Shifter;
@@ -61,7 +67,7 @@ namespace MvcIntro0.Controllers
         {
             _context.Bikes.Remove(_context.Bikes.Find(id));
             _context.SaveChanges();
-            
+
             return RedirectToAction("Index");
         }
     }

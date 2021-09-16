@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 using MvcIntro0.Models;
 using MvcIntro0.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers
 {
@@ -39,35 +35,30 @@ namespace MvcIntro0.Controllers
                         .Skip(id * 10).Take(10)
                         .ToList();
 
-
-            var propertyNames = new List<string>();
+            string currentPropertyName;
             var propertySelect_s = new List<List<string>>();
-
 
             var selectedItems = items;
             string[] arguments = { line, model, frame, fork, shifter, brake, cost };
 
-
             var returnParameter = new ItemsViewModel();
 
 
-            for (int i = 0; i < typeof(Bike).GetProperties().Length - 1; i++)
+            for (int i = 0; i < typeof(Bike).GetProperties().Length - 2; i++)
             {
-                propertyNames.Add(typeof(Bike).GetProperties()[i + 1].Name);
+                currentPropertyName = typeof(Bike).GetProperties()[i + 2].Name;
 
                 propertySelect_s.Add(new List<string> { "Select" });
 
                 propertySelect_s[i].AddRange(items.Select(item
-                                                        => $"{typeof(Bike).GetProperty(propertyNames[i]).GetValue(item)}")
+                                                        => $"{typeof(Bike).GetProperty(currentPropertyName).GetValue(item)}")
                                                         .Distinct());
-
 
                 selectedItems = arguments[i] == "Select"
                                 ? selectedItems
                                 : selectedItems.Where(item
-                                                => $"{typeof(Bike).GetProperty(propertyNames[i]).GetValue(item)}" == arguments[i])
+                                                => $"{typeof(Bike).GetProperty(currentPropertyName).GetValue(item)}" == arguments[i])
                                                 .ToList();
-
 
                 typeof(ItemsViewModel).GetProperties()[i]
                                 .SetValue(returnParameter, new SelectList(propertySelect_s[i], arguments[i]));

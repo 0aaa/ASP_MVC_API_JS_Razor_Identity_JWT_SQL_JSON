@@ -20,6 +20,7 @@
                 <tr>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
+                    <th></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
@@ -36,6 +37,9 @@
                     <tr>
                         <td>@bike.Line</td>
                         <td>@bike.Model</td>
+                        <td class="w-100">
+                            <img src="data:image/jpeg;base64, @Convert.ToBase64String(bike.Image64)" class="w-100"/>
+                        </td>
                         <td>@bike.Frame</td>
                         <td>@bike.Fork</td>
                         <td>@bike.Shifter</td>
@@ -48,7 +52,7 @@
                             @using (Html.BeginForm("Addition", "Summary"))
                             {
                                 <input type="hidden" name="BikeId" value="@bike.BikeId" />
-                                
+
                                 @Html.Hidden("returnUrl", Context.Request.Path.Value)
 
                                 <button type="submit" class="btn border">Choose</button>
@@ -67,24 +71,24 @@
 
             @Html.LabelFor(Model => Model.Model)
             <select name="Model" asp-items="Model.Model" class="form-control mb-1"></select>
-            
+
             @Html.LabelFor(Model => Model.Frame)
             <select name="Frame" asp-items="Model.Frame" class="form-control mb-1"></select>
-            
+
             @Html.LabelFor(Model => Model.Fork)
             <select name="Fork" asp-items="Model.Fork" class="form-control mb-1"></select>
-            
+
             @Html.LabelFor(Model => Model.Shifter)
             <select name="Shifter" asp-items="Model.Shifter" class="form-control mb-1"></select>
-            
+
             @Html.LabelFor(Model => Model.Brake)
             <select name="Brake" asp-items="Model.Brake" class="form-control mb-1"></select>
-            
+
             @Html.LabelFor(Model => Model.Cost)
             <select name="Cost" asp-items="Model.Cost" class="form-control mb-1"></select>
-            
+
             <button type="submit" class="btn border">Submit</button>
-        
+
         </form>
 
     </div>
