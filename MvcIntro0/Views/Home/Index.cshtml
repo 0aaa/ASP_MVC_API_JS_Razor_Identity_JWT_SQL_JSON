@@ -23,7 +23,6 @@
                 <tr>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
-                    <th></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
@@ -40,9 +39,6 @@
                     <tr>
                         <td>@bike.Line</td>
                         <td>@bike.Model</td>
-                        <td>
-                            @*<img src="data:image/jpeg;base64, @bike.Image64"/>*@
-                        </td>
                         <td>@bike.Frame</td>
                         <td>@bike.Fork</td>
                         <td>@bike.Shifter</td>

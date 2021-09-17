@@ -2,6 +2,27 @@
 
 
 
+async function getItems() {
+
+    const fetchResult = await fetch('/api/bikes', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'bearer ' + sessionStorage.getItem(authTkn)
+        }
+    })
+
+    if (fetchResult.ok == true) {
+
+        const items = await fetchResult.json()
+
+        let table = document.querySelector('tbody')
+
+        items.forEach(item => table.append(addRow(item)))
+    }
+}
+
+
+
 function addRow(bike) {
 
     const row = document.createElement('tr')
@@ -9,6 +30,7 @@ function addRow(bike) {
 
     const tableData = []
     let j = 0
+
 
     for (var i = 0; i < 7; i++) {
 
@@ -50,15 +72,7 @@ function addRow(bike) {
 
         event.preventDefault()
 
-        const fetchResult = await fetch(`/api/bikes/${bike.bikeId}`, {
-            method: 'DELETE'
-        })
-        if (fetchResult.ok == true) {
-
-            document.getElementById(bike.bikeId).remove()
-
-            console.log(`${bike.bikeId} deleted`)
-        }
+        deleteItem(bike.bikeId)
     })
 
 
@@ -73,29 +87,6 @@ function addRow(bike) {
 
 
 
-async function getItems() {
-
-    const tkn = sessionStorage.getItem(authTkn)
-
-    const fetchResult = await fetch('/api/bikes', {
-        method: 'GET',
-        headers: {
-            'Authorization': 'bearer ' + tkn
-        }
-    })
-
-    if (fetchResult.ok == true) {
-
-        const items = await fetchResult.json()
-
-        let table = document.querySelector('tbody')
-
-        items.forEach(item => table.append(addRow(item)))
-    }
-}
-
-
-
 async function addItem(line, model, frame, fork, shifter, brake, cost) {
 
     const fetchResult = await fetch('/api/bikes', {
@@ -103,6 +94,7 @@ async function addItem(line, model, frame, fork, shifter, brake, cost) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + sessionStorage.getItem(authTkn)
         },
         body: JSON.stringify({
             line,
@@ -125,23 +117,7 @@ async function addItem(line, model, frame, fork, shifter, brake, cost) {
     }
     else {
 
-        document.getElementById('alertMessage').innerHTML = ''
-
-        const err = await fetchResult.json()
-
-        if (err) {
-            if (err.errors) {
-                for (var e in err.errors) {
-                    printAlert(err.errors[e])
-                }
-            }
-
-            for (var e in err) {
-                printAlert(err[e])
-            }
-        }
-
-        document.getElementById('alertMessage').style.display = 'block'
+        errorsHandling(fetchResult)
     }
 }
 
@@ -162,7 +138,8 @@ async function editItem(bikeId, line, model, frame, fork, shifter, brake, cost) 
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + sessionStorage.getItem(authTkn)
         },
         body: JSON.stringify({
             bikeId,
@@ -181,7 +158,50 @@ async function editItem(bikeId, line, model, frame, fork, shifter, brake, cost) 
         document.getElementById(bikeId).replaceWith(addRow({ bikeId, line, model, frame, fork, shifter, brake, cost }))
 
         console.log(`${bikeId} edited`)
+    } else {
+
+        errorsHandling(fetchResult)
     }
+}
+
+
+
+async function deleteItem(bikeId) {
+
+    const fetchResult = await fetch(`/api/bikes/${bikeId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'bearer ' + sessionStorage.getItem(authTkn)
+        }
+    })
+    if (fetchResult.ok == true) {
+
+        document.getElementById(bikeId).remove()
+
+        console.log(`${bikeId} deleted`)
+    }
+}
+
+
+
+async function errorsHandling(fetchResult) {
+
+    document.getElementById('alertMessage').innerHTML = ''
+
+    const err = await fetchResult.json()
+
+    if (err) {
+
+        if (err.errors) {
+
+            for (var e in err.errors) {
+
+                errorsPrint(err.errors[e])
+            }
+        }
+    }
+
+    document.getElementById('alertMessage').style.display = 'block'
 }
 
 
@@ -204,16 +224,16 @@ document.forms['postPutForm'].addEventListener('submit', (event) => {
 
 
 
-function printAlert(err) {
+function errorsPrint(err) {
 
-    err.forEach(e => {
+    for (var e in err) {
 
         const message = document.createElement('p')
 
-        message.append(e)
+        message.append(err[e])
 
         document.getElementById('alertMessage').append(message)
-    })
+    }
 }
 
 
@@ -225,6 +245,7 @@ async function getTokenAsync() {
         password: document.getElementById('password').value
     }
 
+
     const fetchResult = await fetch('api/user/token', {
         method: 'POST',
         headers: {
@@ -233,11 +254,14 @@ async function getTokenAsync() {
         body: JSON.stringify(userInput)
     })
 
+
     const data = await fetchResult.json()
+
 
     if (fetchResult.ok == true) {
 
         sessionStorage.setItem(authTkn, data.access_token)
+
 
         return true
     } else {
@@ -245,6 +269,7 @@ async function getTokenAsync() {
         sessionStorage.removeItem(authTkn)
 
         alert(`Error: ${fetchResult.status}`)
+
 
         return false
     }
