@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Bike store</title>
+</head>
+<body class="p-4">
+
+    <form id="signingInForm">
+
+        <input id="name" class="form-control w-50 mb-1" placeholder="Name"/>
+
+        <input id="password" class="form-control w-50 mb-1" placeholder="Password"/>
+
+        <button type="submit" class="btn border">Log in</button>
+
+    </form>
+
+
+    <h4>Items</h4>
+
+
+    <form name="postPutForm">
+
+        <div id="alertMessage" class="alert alert-danger" style="display:none"></div>
+
+        <input type="hidden" name="bikeId" value=0 />
+
+        <input id="line" name="line" type="text" class="form-control w-50 mb-1" placeholder="Line" />
+
+        <input id="model" name="model" type="text" class="form-control w-50 mb-1" placeholder="Model" />
+
+        <input id="frame" name="frame" type="text" class="form-control w-50 mb-1" placeholder="Frame" />
+
+        <input id="fork" name="fork" type="text" class="form-control w-50 mb-1" placeholder="Fork" />
+
+        <input id="shifter" name="shifter" type="text" class="form-control w-50 mb-1" placeholder="Shifter" />
+
+        <input id="brake" name="brake" type="text" class="form-control w-50 mb-1" placeholder="Brake" />
+
+        <input id="cost" name="cost" type="number" class="form-control w-50 mb-1" placeholder="Cost" />
+
+        <button id="submit" class="btn border">Add item</button>
+
+    </form>
+
+
+    <table class="table mt-2">
+        <thead>
+            <tr>
+                <th>Line</th>
+                <th>Model</th>
+                <th>Frame</th>
+                <th>Fork</th>
+                <th>Shifter</th>
+                <th>Brake</th>
+                <th>Cost</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <script type="text/javascript" src="js/index.js"></script>
+
+</body>
+</html>

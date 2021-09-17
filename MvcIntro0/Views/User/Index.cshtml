@@ -12,12 +12,15 @@
 
 <h4>Accounts</h4>
 
+
 @if (User.IsInRole("admin"))
 {
     <a href="~/User/AddOrUpdate" class="btn border">Add account</a>
 }
 
+
 <a href="~/Home/Index" class="btn border">Back</a>
+
 
 <table class="table mt-2">
 

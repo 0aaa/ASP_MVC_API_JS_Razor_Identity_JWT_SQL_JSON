@@ -1,4 +1,3 @@
-using System;
 
 namespace MvcIntro0.Models
 {

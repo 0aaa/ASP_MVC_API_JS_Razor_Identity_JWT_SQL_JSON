@@ -8,9 +8,12 @@
 <head>
 </head>
 <body>
+
     <span>@ViewBag.Gratitude</span>
 
+
     <h4>Items</h4>
+
 
     <div class="row">
 
@@ -20,6 +23,7 @@
                 <tr>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
+                    <th></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
                     <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
@@ -36,6 +40,9 @@
                     <tr>
                         <td>@bike.Line</td>
                         <td>@bike.Model</td>
+                        <td>
+                            @*<img src="data:image/jpeg;base64, @bike.Image64"/>*@
+                        </td>
                         <td>@bike.Frame</td>
                         <td>@bike.Fork</td>
                         <td>@bike.Shifter</td>
@@ -59,6 +66,7 @@
             </tbody>
 
         </table>
+
 
         <form method="get" class="col-2">
 
@@ -89,6 +97,7 @@
 
     </div>
 
+
     <ul class="pagination justify-content-center">
         @for (int pageNumber = 0; pageNumber < 3; pageNumber++)
         {
@@ -97,5 +106,6 @@
             </li>
         }
     </ul>
+
 </body>
 </html>
