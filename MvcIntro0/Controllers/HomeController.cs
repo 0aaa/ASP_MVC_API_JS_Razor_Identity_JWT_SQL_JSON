@@ -12,11 +12,11 @@ namespace MvcIntro0.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly StoreContext context;
+        private readonly StoreContext _context;
 
 
         public HomeController(StoreContext cntxt)
-            => context = cntxt;
+            => _context = cntxt;
 
 
         public IActionResult Index(int id, Purchase purchase, string orderBy = "Line", string line = "Select", string model = "Select", string frame = "Select",
@@ -27,7 +27,7 @@ namespace MvcIntro0.Controllers
                 ViewBag.Gratitude = $"Thank you, {purchase.FirstName}, for your order. We love you, come back soon!";
             }
 
-            var items = context.Bikes
+            var items = _context.Bikes
                         .AsEnumerable()
                         .OrderBy(item => typeof(Bike)
                                     .GetProperty(orderBy)
@@ -87,8 +87,8 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                context.Purchases.Add(purchase);
-                context.SaveChanges();
+                _context.Purchases.Add(purchase);
+                _context.SaveChanges();
 
                 ConfirmationMailSending(purchase);
 

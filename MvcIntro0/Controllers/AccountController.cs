@@ -79,8 +79,7 @@ namespace MvcIntro0.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult loginRes
-                    = await _loginManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
+                var loginRes = await _loginManager.PasswordSignInAsync(lvm.Name, lvm.Password, false, false);
 
                 if (loginRes.Succeeded)
                 {

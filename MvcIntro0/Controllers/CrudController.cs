@@ -16,8 +16,17 @@ namespace MvcIntro0.Controllers
             => _context = cntxt;
         
 
-        public IActionResult Index()
-            => View(_context.Bikes.ToList());
+        public IActionResult Index(int id, string orderBy = "Line")
+        {
+
+            return View(_context.Bikes
+                        .AsEnumerable()
+                        .OrderBy(item => typeof(Bike)
+                                    .GetProperty(orderBy)
+                                    .GetValue(item))
+                        .Skip(id * 10).Take(10)
+                        .ToList());
+        }
         
         public IActionResult Addition(int? id)
             => View(_context.Bikes.Find(id));

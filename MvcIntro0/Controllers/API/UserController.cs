@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MvcIntro0.Config;
 using MvcIntro0.Models;
+using MvcIntro0.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MvcIntro0.Controllers.API
 {
@@ -14,34 +17,30 @@ namespace MvcIntro0.Controllers.API
 
     public class UserController : Controller
     {
-        private User Account { get; set; }
+        private readonly SignInManager<Account> _loginManager;
 
 
-        public UserController()
+        public UserController(SignInManager<Account> lgInMngr)
+            => _loginManager = lgInMngr;
+
+
+        private async Task<ClaimsIdentity> GetIdentity(string name, string password)
         {
-            Account = new User
-            {
-                Name = "admin",
-                Password = "admin",
-                Role = "admin"
-            };
-        }
+            var loginRes = await _loginManager.PasswordSignInAsync(name, password, false, false);
 
-
-        private ClaimsIdentity GetIdentity(string name, string password)
-        {
-            if (Account.Name == name && Account.Password == password)
+            if (loginRes.Succeeded)
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, Account.Name),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, Account.Role)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, name),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, "admin")//
                 };
 
 
                 return new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             }
 
+            ModelState.AddModelError("", "Wrong name or password");
 
             return null;
         }
@@ -50,7 +49,7 @@ namespace MvcIntro0.Controllers.API
         [HttpPost]
         public IActionResult Token(User usr)
         {
-            var idntty = GetIdentity(usr.Name, usr.Password);
+            var idntty = GetIdentity(usr.Name, usr.Password).Result;
 
             if (idntty != null)
             {

@@ -16,27 +16,27 @@
 <body>
 
     <h4>Items</h4>
-    
+
 
     <a href="~/Crud/Addition" class="btn border">Add item</a>
-        
+
 
     <table class="table mt-2">
-    
+
         <thead>
             <tr>
-                <th>Line</th>
-                <th>Model</th>
-                <th>Frame</th>
-                <th>Fork</th>
-                <th>Shifter</th>
-                <th>Brake</th>
-                <th>Cost</th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Line">Line</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Model">Model</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Frame">Frame</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Fork">Fork</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Shifter">Shifter</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Brake">Brake</a></th>
+                <th><a asp-controller="Home" asp-action="Index" asp-route-orderBy="Cost">Cost</a></th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
-        
+
         <tbody>
             @foreach (var bike in Model)
             {
@@ -55,7 +55,7 @@
                             <input type="hidden" name="id" value="@bike.BikeId" />
 
                             <button class="btn border" type="submit">Delete</button>
-                        
+
                         </form>
                     </td>
                 </tr>
@@ -63,6 +63,16 @@
         </tbody>
 
     </table>
+
+
+    <ul class="pagination justify-content-center">
+        @for (int pageNumber = 0; pageNumber < 3; pageNumber++)
+        {
+            <li class="page-item">
+                <a href="~/Crud/Index/@pageNumber" class="page-link">@(pageNumber + 1)</a>
+            </li>
+        }
+    </ul>
 
 </body>
 </html>
