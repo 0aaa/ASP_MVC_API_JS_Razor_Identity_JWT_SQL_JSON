@@ -40,7 +40,7 @@ namespace MvcIntro0.Controllers
 
                     userTemp.UserName = userCredentials.UserName;
                     userTemp.PasswordHash = userPassword == null ? userTemp.PasswordHash : _accountManager.PasswordHasher.HashPassword(userTemp, userPassword);
-                    userTemp.Role = userCredentials.Role.Name == null ? userTemp.Role : await _roleManager.FindByNameAsync(userCredentials.Role.Name);
+                    userTemp.Role = userCredentials.Role == null ? await _roleManager.FindByNameAsync("customer") : await _roleManager.FindByNameAsync(userCredentials.Role.Name);
                     userTemp.Email = userCredentials.Email;
                     userTemp.PhoneNumber = userCredentials.PhoneNumber;
 

@@ -8,7 +8,6 @@ namespace MvcIntro0.Models
         public int? BikeId { get; set; }
 
 
-        [Required]
         public byte[] Image64 { get; set; }
 
 

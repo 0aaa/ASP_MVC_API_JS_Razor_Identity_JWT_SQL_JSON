@@ -21,7 +21,7 @@
     <thead>
         <tr>
             <th>Name</th>
-            @if (User.IsInRole("admin"))
+            @if (User.IsInRole("test"))//doesn't work with a new admins
             {
                 <th>Id</th>
                 <th>Role</th>
@@ -32,7 +32,7 @@
     </thead>
 
     <tbody>
-        @if (!User.IsInRole("admin"))
+        @if (!User.IsInRole("admin"))//doesn't work with a new admins
         {
             <tr>
                 <td>@User.Identity.Name</td>
