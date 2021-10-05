@@ -10,6 +10,8 @@ namespace MvcIntro0.Models
 
 
         public Role()
-            => Accounts = new List<Account>();
+        {
+            Accounts = new List<Account>();
+        }
     }
 }

@@ -14,9 +14,13 @@ namespace MvcIntro0.Controllers
 	{
 		private readonly StoreContext context;
 
+		private const int AMOUNTPERPAGE = 10;
+
 
 		public HomeController(StoreContext cntxt)
-			=> context = cntxt;
+        {
+			context = cntxt;
+        }
 
 
 		public IActionResult Index(Purchase purchase)
@@ -41,13 +45,12 @@ namespace MvcIntro0.Controllers
 			};
 
 
-			for (int i = 0; i < typeof(Bike).GetProperties().Length - 1; i++)//1 => 2
+			for (int i = 0; i < typeof(Bike).GetProperties().Length - 2; i++)// 1 => 2 OK
 			{
-
 				propertySelect_s.Add(new List<string> { "Select" });
 
 				propertySelect_s[i].AddRange(items.Select(item
-													=> $"{typeof(Bike).GetProperties()[i + 1].GetValue(item)}")//1 => 2
+													=> $"{typeof(Bike).GetProperties()[i + 2].GetValue(item)}")// 1 => 2 OK
 												.Distinct());
 
 				typeof(ItemsViewModel).GetProperties()[i]
@@ -63,70 +66,81 @@ namespace MvcIntro0.Controllers
 		public IActionResult Items(string orderBy = "Line", string searchBy = "", int itemsCurrentPage = 1, string line = "Select", string model = "Select", string frame = "Select",
 			string fork = "Select", string shifter = "Select", string brake = "Select", string cost = "Select")
 		{
-			orderBy ??= "Line";
+
 			var items = context.Bikes
 						.AsEnumerable()
+						.Skip((itemsCurrentPage - 1) * AMOUNTPERPAGE)
+						.Take(AMOUNTPERPAGE)
 						.OrderBy(item => typeof(Bike)
 									.GetProperty(orderBy)
 									.GetValue(item))
-						.Skip(itemsCurrentPage * 10).Take(10)
 						.ToList();
 
 
 			string[] arguments = { line, model, frame, fork, shifter, brake, cost };
 
-			var returnParameter = new ItemsViewModel { ItemPagesTotalAmount = context.Bikes.Count() / 10 };
+			var returnParameter = new ItemsViewModel
+			{
+				ItemPagesTotalAmount = context.Bikes.Count() / AMOUNTPERPAGE,
+				ItemsCurrentPage = itemsCurrentPage
+			};
 
 			searchBy = searchBy?.ToLower();
 
 
+
 			if (arguments.Any(arg => arg != "Select"))
-			{
+            {
+                items = Filtrate(items, arguments);
+            }
 
-				for (int i = 0; i < typeof(Bike).GetProperties().Length - 1; i++)//1 => 2
-				{
 
-					if (arguments[i] != "Select")
-					{
-						items = items.Where(item
-										=> $"{typeof(Bike).GetProperties()[i + 1].GetValue(item)}" == arguments[i])//
-									.ToList();
-					}
+            if (!string.IsNullOrEmpty(searchBy))
+            {
+                Find(searchBy, items, returnParameter);
 
-				}
-			}
-
-			if (!string.IsNullOrEmpty(searchBy))
-			{
-				for (int i = 0; i < typeof(Bike).GetProperties().Length - 1; i++)//1 => 2
-				{
-
-					returnParameter.Items.AddRange(items.Where(item
-													=> $"{typeof(Bike).GetProperties()[i + 1].GetValue(item)}"//
-													.ToLower()
-													.Contains(searchBy)));
-				}
-				returnParameter.Items = returnParameter.Items.Distinct().ToList();
-
-			}
-			else
+                returnParameter.Items = returnParameter.Items.Distinct().ToList();
+            }
+            else
 			{
 				returnParameter.Items = items;
 			}
-
-
-			returnParameter.ItemsCurrentPage = itemsCurrentPage;
 
 
 			return PartialView(returnParameter);
 		}
 
 
+        private static List<Bike> Filtrate(List<Bike> items, string[] arguments)
+        {
+            for (int i = 0; i < typeof(Bike).GetProperties().Length - 2; i++)// 1 => 2 OK
+            {
+                if (arguments[i] != "Select")
+                {
+                    items = items.Where(item
+                                    => $"{typeof(Bike).GetProperties()[i + 2].GetValue(item)}" == arguments[i])// OK
+                                .ToList();
+                }
+            }
+
+            return items;
+        }
+
+
+        private static void Find(string searchBy, List<Bike> items, ItemsViewModel returnParameter)
+        {
+            for (int i = 0; i < typeof(Bike).GetProperties().Length - 2; i++)// 1 => 2 OK
+            {
+                returnParameter.Items.AddRange(items.Where(item
+                                                => $"{typeof(Bike).GetProperties()[i + 2].GetValue(item)}"// OK
+                                                .ToLower()
+                                                .Contains(searchBy)));
+            }
+        }
 
 
 
-
-		public IActionResult Order(int? id)
+        public IActionResult Order(int? id)
 		{
 			if (id == null)
 			{
@@ -174,11 +188,15 @@ namespace MvcIntro0.Controllers
 
 
 		public IActionResult Privacy()
-			=> View();
+		{
+			return View();
+		}
 
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
-			=> View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
 	}
 }

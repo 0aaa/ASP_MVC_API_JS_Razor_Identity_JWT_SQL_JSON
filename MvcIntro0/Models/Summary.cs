@@ -11,7 +11,9 @@ namespace MvcIntro0.Models
 
 
         public Summary()
-            => _summaryLst = new List<ChosenItem>();
+        {
+            _summaryLst = new List<ChosenItem>();
+        }
 
 
         public void Addition(Bike bike, int qty)
@@ -30,14 +32,20 @@ namespace MvcIntro0.Models
 
 
         public void Deletion(Bike bike)
-            => _summaryLst.RemoveAll(item => item.Bike.BikeId == bike.BikeId);
+        {
+            _summaryLst.RemoveAll(item => item.Bike.BikeId == bike.BikeId);
+        }
 
 
         public void DeleteAll()
-            => _summaryLst.Clear();
+        {
+            _summaryLst.Clear();
+        }
 
 
         public decimal ComputeTotal()
-            => _summaryLst.Sum(item => item.Bike.Cost * item.Qty);
+        {
+            return _summaryLst.Sum(item => item.Bike.Cost * item.Qty);
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace MvcIntro0.Models
 
 
         public StoreContext(DbContextOptions<StoreContext> optns) : base(optns)
-            => Database.EnsureCreated();
+        {
+            Database.EnsureCreated();
+        }
     }
 }

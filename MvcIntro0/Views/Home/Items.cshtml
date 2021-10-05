@@ -11,14 +11,14 @@
 
         <thead>
             <tr>
-                <th><a href="#" class="orderByLinks">Line</a></th>
-                <th><a href="#" class="orderByLinks">Model</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Line</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Model</a></th>
                 <th></th>
-                <th><a href="#" class="orderByLinks">Frame</a></th>
-                <th><a href="#" class="orderByLinks">Fork</a></th>
-                <th><a href="#" class="orderByLinks">Shifter</a></th>
-                <th><a href="#" class="orderByLinks">Brake</a></th>
-                <th><a href="#" class="orderByLinks">Cost</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Frame</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Fork</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Shifter</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Brake</a></th>
+                <th><a href="#" class="orderByPaginationLinks">Cost</a></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -63,10 +63,10 @@
         @if (Model.ItemsCurrentPage > 1)
         {
             <li class="page-item">
-                <a href="#" class="page-link paginationLinks">Previous</a>
+                <a id="previousPaginationLink" href="#" class="page-link">Previous</a>
             </li>                                                                                          
             <li class="page-item">                                                                         
-                <a href="#" class="page-link paginationLinks">@(Model.ItemsCurrentPage - 1)</a>
+                <a href="#" class="page-link orderByPaginationLinks">@(Model.ItemsCurrentPage - 1)</a>
             </li>
         }
 
@@ -77,12 +77,16 @@
         @if (Model.ItemsCurrentPage < Model.ItemPagesTotalAmount)
         {
             <li class="page-item">
-                <a href="#" class="page-link paginationLinks">@(Model.ItemsCurrentPage + 1)</a>
+                <a href="#" class="page-link orderByPaginationLinks">@(Model.ItemsCurrentPage + 1)</a>
             </li>
             <li class="page-item">
-                <a href="#" class="page-link paginationLinks">Next</a>
+                <a id="nextPaginationLink" href="#" class="page-link">Next</a>
             </li>
         }
     </ul>
 
 </div>
+
+
+
+<script src="~/js/partial_view.js"></script>

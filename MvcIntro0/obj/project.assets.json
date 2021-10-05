@@ -5469,11 +5469,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\student.LAN\\Downloads\\dd911 Oleg Kovalenko MvcIntro1\\MvcIntro0\\MvcIntro0\\MvcIntro0.csproj",
+      "projectUniqueName": "C:\\Users\\student.LAN\\source\\repos\\dd911 Oleg Kovalenko\\asp git govno\\MvcIntro0\\MvcIntro0\\MvcIntro0.csproj",
       "projectName": "MvcIntro0",
-      "projectPath": "C:\\Users\\student.LAN\\Downloads\\dd911 Oleg Kovalenko MvcIntro1\\MvcIntro0\\MvcIntro0\\MvcIntro0.csproj",
+      "projectPath": "C:\\Users\\student.LAN\\source\\repos\\dd911 Oleg Kovalenko\\asp git govno\\MvcIntro0\\MvcIntro0\\MvcIntro0.csproj",
       "packagesPath": "C:\\Users\\student.LAN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\student.LAN\\Downloads\\dd911 Oleg Kovalenko MvcIntro1\\MvcIntro0\\MvcIntro0\\obj\\",
+      "outputPath": "C:\\Users\\student.LAN\\source\\repos\\dd911 Oleg Kovalenko\\asp git govno\\MvcIntro0\\MvcIntro0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\student.LAN\\AppData\\Roaming\\NuGet\\NuGet.Config",

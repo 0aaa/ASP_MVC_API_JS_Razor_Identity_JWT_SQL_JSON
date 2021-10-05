@@ -12,6 +12,17 @@ namespace MvcIntro0.Models.ViewModels
         public SelectList Shifter { get; set; }
         public SelectList Brake { get; set; }
         public SelectList Cost { get; set; }
+
         public List<Bike> Items { get; set; }
+
+		public int ItemPagesTotalAmount { get; set; }
+		public int ItemsCurrentPage { get; set; }
+
+
+		public ItemsViewModel()
+		{
+            Items = new List<Bike>();
+            ItemsCurrentPage = 1;
+		}
     }
 }
