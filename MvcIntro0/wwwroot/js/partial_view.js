@@ -1,9 +1,9 @@
 ﻿
-function getItems(orderBy, pageNumber) {
+function getItems(pageNumber, orderBy = 'Line') {
 
     $('#partialDiv').load('/Home/Items/'
-        + `?orderBy=${orderBy}`
-        + `&itemsCurrentPage=${pageNumber}`
+        + `?itemsCurrentPage=${pageNumber}`
+        + `&orderBy=${orderBy}`
         + `&searchBy=${encodeURIComponent($("[name = 'searchBy']").val())}`
 
         + `&line=${encodeURIComponent($("[name = 'Line']").val())}`
@@ -26,11 +26,11 @@ $('.orderByPaginationLinks').on('click', (event) => {
 
     if (event.target.classList.contains('page-link')) {
 
-        getItems('Line', event.target.innerText)
+        getItems(event.target.innerText)
 
     } else {
 
-        getItems(event.target.innerText, $('.active')[0].firstElementChild.innerHTML)
+        getItems($('.active')[0].firstElementChild.innerHTML, event.target.innerText)
 
     }
 })
