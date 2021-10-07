@@ -26,9 +26,11 @@ $('.orderByPaginationLinks').on('click', (event) => {
 
     if (event.target.classList.contains('page-link')) {
 
-        getItems(event.target.innerText)
+        getItems(event.target.innerText, orderBy)
 
     } else {
+
+        orderBy = event.target.innerText
 
         getItems($('.active')[0].firstElementChild.innerHTML, event.target.innerText)
 
@@ -41,7 +43,7 @@ $('#nextPaginationLink').on('click', (event) => {
 
     event.preventDefault()
 
-    getItems(Number($('.active')[0].firstElementChild.innerHTML) + 1)
+    getItems(Number($('.active')[0].firstElementChild.innerHTML) + 1, orderBy)
 })
 
 
@@ -49,5 +51,5 @@ $('#previousPaginationLink').on('click', (event) => {
 
     event.preventDefault()
 
-    getItems(Number($('.active')[0].firstElementChild.innerHTML) - 1)
+    getItems(Number($('.active')[0].firstElementChild.innerHTML) - 1, orderBy)
 })

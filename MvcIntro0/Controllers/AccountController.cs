@@ -38,10 +38,14 @@ namespace MvcIntro0.Controllers
 
 
         public IActionResult Registration()
-            => View();
+        {
+            return View();
+        }
 
         public IActionResult Login(string returnURL)
-            => View(new LoginingViewModel { ReturnURL = returnURL });
+        {
+            return View(new LoginingViewModel { ReturnURL = returnURL });
+        }
 
 
         [HttpPost]

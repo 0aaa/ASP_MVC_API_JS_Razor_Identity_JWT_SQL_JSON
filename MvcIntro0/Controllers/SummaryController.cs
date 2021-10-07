@@ -13,12 +13,14 @@ namespace MvcIntro0.Controllers
 
 
         public SummaryController(StoreContext cntxt)
-            => _context = cntxt;
-        
+        {
+            _context = cntxt;
+        }
 
         public IActionResult Index(string returnUrl)
-            => View(new SummaryIndexViewModel { Summary = GetSummary(), ReturnUrl = returnUrl });
-
+        {
+            return View(new SummaryIndexViewModel { Summary = GetSummary(), ReturnUrl = returnUrl });
+        }
 
         public IActionResult Addition(int bikeId, string returnUrl)
         {

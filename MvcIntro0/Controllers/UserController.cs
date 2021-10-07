@@ -23,11 +23,14 @@ namespace MvcIntro0.Controllers
 
 
         public IActionResult Index()
-            => View(_accountManager.Users.Include(acnt => acnt.Role).ToList());
+        {
+            return View(_accountManager.Users.Include(acnt => acnt.Role).ToList());
+        }
 
         public async Task<IActionResult> AddOrUpdate(string userName)
-            => View(userName == null ? null : await _accountManager.FindByNameAsync(userName));
-
+        {
+            return View(userName == null ? null : await _accountManager.FindByNameAsync(userName));
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddOrUpdate(Account userCredentials, string userPassword)

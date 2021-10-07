@@ -15,18 +15,25 @@ namespace MvcIntro0.Controllers
 
 
         public CrudController(StoreContext cntxt)
-            => _context = cntxt;
+        {
+            _context = cntxt;
+        }
 
 
         public IActionResult Index()
-            => View(_context.Bikes.ToList());
+        {
+            return View(_context.Bikes.ToList());
+        }
 
         public IActionResult Addition(int? id)
-            => View(_context.Bikes.Find(id));
+        {
+            return View(_context.Bikes.Find(id));
+        }
 
         public IActionResult AccountRole()
-            => View(_context.Users.Include(acnt => acnt.Role).ToList());
-
+        {
+            return View(_context.Users.Include(acnt => acnt.Role).ToList());
+        }
 
         [HttpPost]
         public IActionResult Addition(Bike newBike, IFormFile image)

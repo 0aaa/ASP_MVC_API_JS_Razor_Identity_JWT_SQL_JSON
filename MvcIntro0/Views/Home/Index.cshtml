@@ -4,61 +4,62 @@
     ViewData["Title"] = "Bike store";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <span>@ViewBag.Gratitude</span>
 
-    <h4>Items</h4>
+<span>@ViewBag.Gratitude</span>
+
+<h4>Items</h4>
 
 
 
-    <form class="searchAndFiltersForms row">
+<form class="searchAndFiltersForms row mb-2">
 
-        <input name="searchBy" class="form-control w-75 mr-2" placeholder="Search" />
+    <input name="searchBy" class="form-control w-75 mr-2" placeholder="Search" />
 
-        <button type="submit" class="btn border">Find</button>
+    <button type="submit" class="btn border">Find</button>
 
-    </form>
-
-
-
-    <div class="row">
-
-        @await Html.PartialAsync("Items")
+</form>
 
 
 
-        <form class="searchAndFiltersForms col-2">
+<div class="row">
 
+    <form class="searchAndFiltersForms row-sm col h-25">
+
+        <div class="col-sm-3 col-xl-12">
             @Html.LabelFor(Model => Model.Line)
             <select name="Line" asp-items="Model.Line" class="form-control mb-1"></select>
 
             @Html.LabelFor(Model => Model.Model)
             <select name="Model" asp-items="Model.Model" class="form-control mb-1"></select>
+        </div>
 
+        <div class="col-sm-3 col-xl-12">
             @Html.LabelFor(Model => Model.Frame)
             <select name="Frame" asp-items="Model.Frame" class="form-control mb-1"></select>
 
             @Html.LabelFor(Model => Model.Fork)
             <select name="Fork" asp-items="Model.Fork" class="form-control mb-1"></select>
+        </div>
 
+        <div class="col-sm-3 col-xl-12">
             @Html.LabelFor(Model => Model.Shifter)
             <select name="Shifter" asp-items="Model.Shifter" class="form-control mb-1"></select>
 
             @Html.LabelFor(Model => Model.Brake)
             <select name="Brake" asp-items="Model.Brake" class="form-control mb-1"></select>
+        </div>
 
+        <div class="col-sm-3 col-xl-12 d-flex flex-column">
             @Html.LabelFor(Model => Model.Cost)
             <select name="Cost" asp-items="Model.Cost" class="form-control mb-1"></select>
 
-            <button type="submit" class="btn border">Submit</button>
+            <button type="submit" class="btn border w-100 mt-auto mb-1">Submit</button>
+        </div>
 
-        </form>
+    </form>
 
-    </div>
 
-</body>
-</html>
+
+    @await Html.PartialAsync("Items")
+
+</div>

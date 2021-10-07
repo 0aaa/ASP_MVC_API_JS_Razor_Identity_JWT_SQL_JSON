@@ -17,6 +17,7 @@ namespace MvcIntro0.Models.ViewModels
 
 		public int ItemPagesTotalAmount { get; set; }
 		public int ItemsCurrentPage { get; set; }
+		public string OrderBy { get; set; }
 
 
 		public ItemsViewModel()

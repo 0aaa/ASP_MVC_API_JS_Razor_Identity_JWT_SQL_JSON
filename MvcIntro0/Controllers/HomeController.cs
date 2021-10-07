@@ -72,7 +72,11 @@ namespace MvcIntro0.Controllers
 
             string[] arguments = { line, model, frame, fork, shifter, brake, cost };
 
-            var returnParameter = new ItemsViewModel { ItemsCurrentPage = itemsCurrentPage };
+            var returnParameter = new ItemsViewModel
+            {
+                ItemsCurrentPage = itemsCurrentPage,
+                OrderBy = orderBy
+            };
 
             searchBy = searchBy?.ToLower();
 
@@ -104,6 +108,8 @@ namespace MvcIntro0.Controllers
                         .Take(AMOUNTPERPAGE)
                         .ToList();
 
+
+            returnParameter.OrderBy = orderBy;
 
             return PartialView(returnParameter);
         }
